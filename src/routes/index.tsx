@@ -51,7 +51,7 @@ function Index() {
           <a href="#works" className="hover:opacity-60 transition-opacity">Works</a>
           <a href="#archive" className="hover:opacity-60 transition-opacity">Archive</a>
           <a href="#about" className="hover:opacity-60 transition-opacity">About</a>
-          <a href="#about" className="hover:opacity-60 transition-opacity">Contact</a>
+          <Link to="/contact" className="hover:opacity-60 transition-opacity">Contact</Link>
         </div>
       </nav>
 
