@@ -174,6 +174,53 @@ function Index() {
         </div>
       </section>
 
+      {/* Contact CTA */}
+      <section className="px-6 md:px-8 py-32 bg-background border-t border-border">
+        <div className="max-w-5xl mx-auto text-center">
+          <span className="text-[10px] uppercase tracking-[0.25em] text-accent">
+            Ready to create
+          </span>
+          <h3 className="mt-4 text-3xl md:text-5xl font-light tracking-tight">
+            Have a project in mind?
+          </h3>
+          <div className="mt-12 flex justify-center">
+            <button
+              onClick={handleCta}
+              aria-label="Contact us"
+              className={`group relative overflow-hidden rounded-full px-12 md:px-20 py-6 md:py-8 bg-foreground text-background text-lg md:text-2xl font-light tracking-wide uppercase transition-all duration-300 hover:scale-[1.04] focus:outline-none focus-visible:ring-2 focus-visible:ring-accent ${
+                ctaActive ? "scale-95" : ""
+              }`}
+            >
+              <span
+                className={`absolute inset-0 rounded-full bg-accent transition-transform duration-700 ease-out origin-center ${
+                  ctaActive ? "scale-[20]" : "scale-0"
+                }`}
+                aria-hidden
+              />
+              <span
+                className={`absolute inset-0 rounded-full border border-background/20 ${
+                  ctaActive ? "animate-ping" : ""
+                }`}
+                aria-hidden
+              />
+              <span className="relative z-10 flex items-center gap-3">
+                Contact Us
+                <span
+                  className={`inline-block transition-transform duration-500 ${
+                    ctaActive ? "translate-x-3" : "group-hover:translate-x-2"
+                  }`}
+                >
+                  →
+                </span>
+              </span>
+            </button>
+          </div>
+          <p className="mt-8 text-xs text-muted-foreground uppercase tracking-widest">
+            WhatsApp · Instagram · Email
+          </p>
+        </div>
+      </section>
+
       {/* About & Contact */}
       <footer id="about" className="px-8 pt-32 pb-16">
         <div className="grid grid-cols-12 gap-8 max-w-7xl mx-auto">
