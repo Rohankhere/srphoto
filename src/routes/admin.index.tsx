@@ -21,7 +21,7 @@ import { Card } from "@/components/ui/card";
 import { toast } from "sonner";
 import { Trash2, Plus, Upload, ArrowLeft, LogOut } from "lucide-react";
 
-export const Route = createFileRoute("/admin")({
+export const Route = createFileRoute("/admin/")({
   head: () => ({ meta: [{ title: "Admin Panel" }] }),
   component: AdminPage,
 });
