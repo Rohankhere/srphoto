@@ -36,6 +36,14 @@ function Index() {
     photos: (photosQ.data ?? []).filter((p) => p.gallery_id === g.id),
   }));
 
+  const navigate = useNavigate();
+  const [ctaActive, setCtaActive] = useState(false);
+  const handleCta = () => {
+    if (ctaActive) return;
+    setCtaActive(true);
+    window.setTimeout(() => navigate({ to: "/contact" }), 650);
+  };
+
   return (
     <div className="min-h-screen bg-background text-foreground">
       <link rel="preconnect" href="https://fonts.googleapis.com" />
