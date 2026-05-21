@@ -1,7 +1,5 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { X, ChevronLeft, ChevronRight } from "lucide-react";
 import {
   fetchSiteSettings,
   fetchGalleries,
@@ -36,34 +34,6 @@ function Index() {
     ...g,
     photos: (photosQ.data ?? []).filter((p) => p.gallery_id === g.id),
   }));
-
-  const [openGallery, setOpenGallery] = useState<GalleryWithPhotos | null>(null);
-  const [activeIndex, setActiveIndex] = useState(0);
-
-  const open = (g: GalleryWithPhotos) => {
-    setOpenGallery(g);
-    setActiveIndex(0);
-  };
-  const close = () => setOpenGallery(null);
-
-  useEffect(() => {
-    if (!openGallery) return;
-    document.body.style.overflow = "hidden";
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") close();
-      if (e.key === "ArrowRight")
-        setActiveIndex((i) => (i + 1) % openGallery.photos.length);
-      if (e.key === "ArrowLeft")
-        setActiveIndex(
-          (i) => (i - 1 + openGallery.photos.length) % openGallery.photos.length,
-        );
-    };
-    window.addEventListener("keydown", onKey);
-    return () => {
-      document.body.style.overflow = "";
-      window.removeEventListener("keydown", onKey);
-    };
-  }, [openGallery]);
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -128,9 +98,10 @@ function Index() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-7xl mx-auto">
           {galleries.map((g) => (
-            <button
+            <Link
               key={g.id}
-              onClick={() => open(g)}
+              to="/gallery/$slug"
+              params={{ slug: g.slug }}
               className="group text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
             >
               <div className="relative overflow-hidden aspect-[4/5] bg-muted">
@@ -156,7 +127,7 @@ function Index() {
                   {g.year}
                 </span>
               </div>
-            </button>
+            </Link>
           ))}
         </div>
       </section>
@@ -242,97 +213,6 @@ function Index() {
           </div>
         </div>
       </footer>
-
-      {/* Gallery Lightbox */}
-      {openGallery && (
-        <GalleryLightbox
-          gallery={openGallery}
-          activeIndex={activeIndex}
-          setActiveIndex={setActiveIndex}
-          onClose={close}
-        />
-      )}
-    </div>
-  );
-}
-
-function GalleryLightbox({
-  gallery,
-  activeIndex,
-  setActiveIndex,
-  onClose,
-}: {
-  gallery: GalleryWithPhotos;
-  activeIndex: number;
-  setActiveIndex: (n: number) => void;
-  onClose: () => void;
-}) {
-  const total = gallery.photos.length;
-  const active = gallery.photos[activeIndex];
-  if (!active) return null;
-  const prev = () => setActiveIndex((activeIndex - 1 + total) % total);
-  const next = () => setActiveIndex((activeIndex + 1) % total);
-
-  return (
-    <div
-      className="fixed inset-0 z-50 bg-background animate-fade-up"
-      role="dialog"
-      aria-modal="true"
-      aria-label={gallery.title}
-    >
-      <div className="flex justify-between items-center px-6 md:px-8 h-16 border-b border-border">
-        <div className="min-w-0">
-          <h3 className="text-sm md:text-base font-medium truncate">{gallery.title}</h3>
-          <p className="text-[10px] uppercase tracking-widest text-muted-foreground">
-            {gallery.place} · {gallery.year}
-          </p>
-        </div>
-        <button onClick={onClose} aria-label="Close gallery" className="p-2 -mr-2 hover:text-accent transition-colors">
-          <X className="size-5" />
-        </button>
-      </div>
-
-      <div className="relative h-[calc(100vh-4rem-7rem)] md:h-[calc(100vh-4rem-8rem)] flex items-center justify-center px-4 md:px-16 bg-muted/40">
-        <img
-          key={active.id}
-          src={active.url}
-          alt={active.caption}
-          className="max-h-full max-w-full object-contain animate-fade-up"
-        />
-        {total > 1 && (
-          <>
-            <button onClick={prev} aria-label="Previous image" className="absolute left-2 md:left-6 top-1/2 -translate-y-1/2 p-3 rounded-full bg-background/70 backdrop-blur hover:bg-background transition-colors">
-              <ChevronLeft className="size-5" />
-            </button>
-            <button onClick={next} aria-label="Next image" className="absolute right-2 md:right-6 top-1/2 -translate-y-1/2 p-3 rounded-full bg-background/70 backdrop-blur hover:bg-background transition-colors">
-              <ChevronRight className="size-5" />
-            </button>
-          </>
-        )}
-      </div>
-
-      <div className="h-28 md:h-32 border-t border-border px-6 md:px-8 py-4 flex items-center gap-6">
-        <div className="flex-1 min-w-0">
-          <p className="text-[10px] uppercase tracking-widest text-muted-foreground">
-            {String(activeIndex + 1).padStart(2, "0")} / {String(total).padStart(2, "0")}
-          </p>
-          <p className="mt-1 text-sm truncate">{active.caption}</p>
-        </div>
-        <div className="hidden sm:flex gap-2 overflow-x-auto">
-          {gallery.photos.map((img, i) => (
-            <button
-              key={img.id}
-              onClick={() => setActiveIndex(i)}
-              aria-label={`Show image ${i + 1}`}
-              className={`shrink-0 h-16 w-16 overflow-hidden border transition-all ${
-                i === activeIndex ? "border-accent opacity-100" : "border-transparent opacity-50 hover:opacity-100"
-              }`}
-            >
-              <img src={img.url} alt="" className="w-full h-full object-cover" />
-            </button>
-          ))}
-        </div>
-      </div>
     </div>
   );
 }
