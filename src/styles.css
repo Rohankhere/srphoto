@@ -32,7 +32,7 @@
   --color-ring-offset-background: var(--background);
 
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
-  --font-display: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-display: 'Playfair Display', 'Cormorant Garamond', Georgia, serif;
   --font-mono: 'Inter', system-ui, -apple-system, sans-serif;
 
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
@@ -40,16 +40,16 @@
 
 :root {
   --radius: 0.5rem;
-  --background: oklch(0.985 0.003 80);
-  --foreground: oklch(0.18 0.005 60);
-  --muted: oklch(0.95 0.004 80);
-  --muted-foreground: oklch(0.18 0.005 60 / 0.6);
-  --border: oklch(0.18 0.005 60 / 0.1);
-  --accent: oklch(0.48 0.09 50);
-  --card: oklch(0.985 0.003 80);
-  --card-foreground: oklch(0.18 0.005 60);
-  --popover: oklch(0.985 0.003 80);
-  --popover-foreground: oklch(0.18 0.005 60);
+  --background: oklch(0.13 0.008 60);
+  --foreground: oklch(0.96 0.005 80);
+  --muted: oklch(0.2 0.008 60);
+  --muted-foreground: oklch(0.96 0.005 80 / 0.55);
+  --border: oklch(0.96 0.005 80 / 0.12);
+  --accent: oklch(0.83 0.15 88);
+  --card: oklch(0.16 0.008 60);
+  --card-foreground: oklch(0.96 0.005 80);
+  --popover: oklch(0.16 0.008 60);
+  --popover-foreground: oklch(0.96 0.005 80);
 }
 
 @keyframes fade-up {

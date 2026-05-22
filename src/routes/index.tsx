@@ -44,28 +44,58 @@ function Index() {
     window.setTimeout(() => navigate({ to: "/contact" }), 650);
   };
 
+  // Parse *word* markers in headline → italic accent words (editable from admin)
+  const renderHeadline = (text: string) => {
+    const parts = text.split(/(\*[^*]+\*)/g);
+    return parts.map((p, i) =>
+      p.startsWith("*") && p.endsWith("*") ? (
+        <em key={i} className="italic font-normal text-accent">{p.slice(1, -1)}</em>
+      ) : (
+        <span key={i}>{p}</span>
+      ),
+    );
+  };
+
   return (
     <div className="min-h-screen bg-background text-foreground">
       <link rel="preconnect" href="https://fonts.googleapis.com" />
       <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
       <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap"
         rel="stylesheet"
       />
 
       {/* Navigation */}
-      <nav className="fixed top-0 w-full z-40 px-8 py-8 flex justify-between items-baseline mix-blend-difference text-background">
-        <span className="text-lg font-medium tracking-tight">{s.nav_brand ?? ""}</span>
-        <div className="hidden md:flex gap-10 text-[11px] uppercase tracking-[0.2em] font-medium">
-          <a href="#works" className="hover:opacity-60 transition-opacity">Works</a>
-          <a href="#archive" className="hover:opacity-60 transition-opacity">Archive</a>
-          <a href="#about" className="hover:opacity-60 transition-opacity">About</a>
-          <Link to="/contact" className="hover:opacity-60 transition-opacity">Contact</Link>
+      <nav className="fixed top-0 w-full z-40 px-6 md:px-10 py-5 flex justify-between items-center bg-background/80 backdrop-blur-md border-b border-border">
+        <div className="flex items-center gap-3">
+          <span className="inline-flex items-center justify-center size-9 border border-accent/60 text-accent">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="size-4">
+              <path d="M4 7h3l2-2h6l2 2h3v12H4z" />
+              <circle cx="12" cy="13" r="3.5" />
+            </svg>
+          </span>
+          <div className="leading-tight">
+            <div className="font-serif text-lg tracking-[0.18em] uppercase">{s.nav_brand ?? "Studio"}</div>
+            <div className="text-[9px] tracking-[0.28em] uppercase text-muted-foreground">{s.hero_eyebrow ?? "Fine Art Editorial"}</div>
+          </div>
         </div>
+        <div className="hidden lg:flex items-center gap-8 text-[11px] uppercase tracking-[0.22em] font-medium">
+          <a href="#works" className="text-accent border-b border-accent pb-1">Showcase</a>
+          <a href="#works" className="hover:text-accent transition-colors">Portfolio</a>
+          <a href="#about" className="hover:text-accent transition-colors">Story</a>
+          <a href="#archive" className="hover:text-accent transition-colors">Archive</a>
+          <Link to="/contact" className="hover:text-accent transition-colors">Contact</Link>
+        </div>
+        <Link
+          to="/contact"
+          className="hidden md:inline-flex items-center gap-2 bg-accent text-background px-5 py-3 text-[11px] uppercase tracking-[0.22em] font-semibold hover:brightness-110 transition"
+        >
+          Book Session
+        </Link>
       </nav>
 
       {/* Hero */}
-      <section className="relative h-screen flex flex-col justify-end p-8 pb-16">
+      <section className="relative min-h-screen flex flex-col justify-center px-6 md:px-10 pt-32 pb-20">
         <div className="absolute inset-0 -z-10">
           {s.hero_image && (
             <img
@@ -73,23 +103,56 @@ function Index() {
               alt="Hero"
               width={1920}
               height={1280}
-              className="w-full h-full object-cover"
+              className="w-full h-full object-cover opacity-60"
             />
           )}
-          <div className="absolute inset-0 bg-gradient-to-t from-background/40 via-transparent to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-background via-background/85 to-background/40" />
+          <div className="absolute inset-0 bg-gradient-to-b from-background/60 via-transparent to-background" />
         </div>
+
         <div className="max-w-4xl animate-fade-up">
-          <h1 className="text-[clamp(2.5rem,7vw,5.5rem)] leading-[1] tracking-tight text-balance mb-8 font-light">
-            {s.hero_headline ?? ""}
+          <div className="inline-flex items-center gap-2 border border-accent/40 bg-accent/5 px-4 py-2 mb-10">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="size-3.5 text-accent">
+              <circle cx="12" cy="9" r="5" />
+              <path d="M9 14l-2 7 5-3 5 3-2-7" />
+            </svg>
+            <span className="text-[10px] uppercase tracking-[0.3em] text-accent font-semibold">
+              {s.hero_eyebrow ?? "Est. Studio"}
+            </span>
+          </div>
+
+          <h1 className="font-serif text-[clamp(2.75rem,7.5vw,6rem)] leading-[1.02] tracking-tight text-balance mb-10 font-normal">
+            {renderHeadline(s.hero_headline ?? "Capturing the *Infinite Beauty* of Your Most Precious Moments.")}
           </h1>
-          <div className="flex gap-4 items-center">
-            <div className="w-12 h-px bg-foreground/30" />
-            <p className="text-[10px] uppercase tracking-widest text-muted-foreground">
-              {s.hero_eyebrow ?? ""}
+
+          {s.about_bio && (
+            <p className="max-w-xl text-base md:text-lg text-muted-foreground leading-relaxed mb-12">
+              {s.about_bio}
             </p>
+          )}
+
+          <div className="flex flex-wrap gap-4 items-center">
+            <Link
+              to="/contact"
+              className="group inline-flex items-center gap-3 bg-accent text-background px-7 py-4 text-[11px] uppercase tracking-[0.25em] font-semibold hover:brightness-110 transition"
+            >
+              Book Your Session
+              <span className="transition-transform group-hover:translate-x-1">↳</span>
+            </Link>
+            <a
+              href="#works"
+              className="inline-flex items-center gap-3 border border-foreground/30 text-foreground px-7 py-4 text-[11px] uppercase tracking-[0.25em] font-semibold hover:border-accent hover:text-accent transition"
+            >
+              Explore Portfolio
+            </a>
           </div>
         </div>
+
+        <div className="absolute bottom-8 right-6 md:right-10 text-[10px] uppercase tracking-[0.25em] text-muted-foreground hidden md:block">
+          Global Coverage
+        </div>
       </section>
+
 
       {/* Works — gallery grid */}
       <section id="works" className="px-8 py-32">
