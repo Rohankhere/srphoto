@@ -194,6 +194,21 @@ function SiteSettingsEditor() {
                 />
               </label>
             </div>
+          ) : f.type === "color" ? (
+            <div className="flex items-center gap-2">
+              <input
+                type="color"
+                value={/^#[0-9a-fA-F]{6}$/.test(values[f.key] ?? "") ? values[f.key] : "#000000"}
+                onChange={(e) => setValues((v) => ({ ...v, [f.key]: e.target.value }))}
+                className="h-10 w-14 rounded border border-border bg-transparent cursor-pointer"
+              />
+              <Input
+                id={f.key}
+                value={values[f.key] ?? ""}
+                onChange={(e) => setValues((v) => ({ ...v, [f.key]: e.target.value }))}
+                placeholder="#000000 (leave blank to use theme default)"
+              />
+            </div>
           ) : (
             <Input
               id={f.key}
