@@ -68,16 +68,20 @@ function AdminPage() {
 
       <main className="max-w-5xl mx-auto p-6">
         <Tabs defaultValue="settings">
-          <TabsList className="mb-6">
+          <TabsList className="mb-6 flex-wrap h-auto">
             <TabsTrigger value="settings">Site content</TabsTrigger>
             <TabsTrigger value="galleries">Galleries</TabsTrigger>
             <TabsTrigger value="social">Social links</TabsTrigger>
             <TabsTrigger value="archive">Archive</TabsTrigger>
+            <TabsTrigger value="experience">Experience</TabsTrigger>
+            <TabsTrigger value="reviews">Reviews</TabsTrigger>
           </TabsList>
           <TabsContent value="settings"><SiteSettingsEditor /></TabsContent>
           <TabsContent value="galleries"><GalleriesEditor /></TabsContent>
           <TabsContent value="social"><SocialLinksEditor /></TabsContent>
           <TabsContent value="archive"><ArchiveEditor /></TabsContent>
+          <TabsContent value="experience"><ExperienceEditor /></TabsContent>
+          <TabsContent value="reviews"><ReviewsEditor /></TabsContent>
         </Tabs>
       </main>
     </div>
