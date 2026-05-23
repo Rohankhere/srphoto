@@ -300,51 +300,90 @@ function Index() {
         </div>
       </section>
 
-      {/* About & Contact */}
-      <footer id="about" className="px-8 pt-32 pb-16">
-        <div className="grid grid-cols-12 gap-8 max-w-7xl mx-auto">
-          <div className="col-span-12 md:col-span-6 space-y-8">
-            <p className="text-2xl md:text-3xl leading-snug font-light tracking-tight">
-              {s.about_bio ?? ""}
-            </p>
-            {s.contact_email && (
-              <div className="pt-8">
-                <a
-                  href={`mailto:${s.contact_email}`}
-                  className="text-2xl md:text-3xl font-light underline decoration-foreground/10 underline-offset-8 hover:decoration-accent transition-all break-all"
-                >
-                  {s.contact_email}
-                </a>
+      {/* Footer */}
+      <footer id="about" className="bg-background border-t border-border">
+        <div className="max-w-7xl mx-auto px-6 md:px-10 pt-24 pb-10">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-16 md:gap-12">
+            {/* Brand column */}
+            <div>
+              <div className="flex items-center gap-3 mb-8">
+                {s.nav_logo ? (
+                  <img src={s.nav_logo} alt={s.nav_brand ?? "Logo"} className="size-9 object-contain" />
+                ) : (
+                  <span className="inline-flex items-center justify-center size-9 border border-accent/60 text-accent">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="size-4">
+                      <path d="M4 7h3l2-2h6l2 2h3v12H4z" />
+                      <circle cx="12" cy="13" r="3.5" />
+                    </svg>
+                  </span>
+                )}
+                <span className="font-serif text-lg tracking-[0.22em] uppercase">
+                  {s.nav_brand ?? "Studio"}
+                </span>
               </div>
-            )}
-          </div>
-          <div className="col-span-12 md:col-start-9 md:col-span-4 flex flex-col justify-between">
-            <div className="grid grid-cols-2 gap-12 text-[10px] uppercase tracking-widest leading-loose">
-              <div className="space-y-3">
-                <p className="text-accent">{s.represented_by_label ?? ""}</p>
-                <p className="text-muted-foreground whitespace-pre-line">{s.represented_by ?? ""}</p>
-              </div>
-              <div className="space-y-3">
-                <p className="text-accent">{s.clients_label ?? ""}</p>
-                <p className="text-muted-foreground whitespace-pre-line">{s.clients ?? ""}</p>
-              </div>
-            </div>
-            <div className="pt-16 flex justify-between items-end border-t border-border mt-12">
-              <span className="text-[10px] opacity-40 uppercase tracking-widest">{s.copyright ?? ""}</span>
-              <div className="flex gap-6">
+              <p className="text-sm leading-relaxed text-muted-foreground max-w-sm whitespace-pre-line">
+                {s.about_bio ?? ""}
+              </p>
+              <div className="flex gap-3 mt-8">
                 {(socialQ.data ?? []).map((l) => (
                   <a
                     key={l.id}
                     href={l.url}
                     target="_blank"
                     rel="noreferrer"
-                    className="text-[10px] uppercase tracking-widest hover:text-accent transition-colors"
+                    aria-label={l.label}
+                    className="inline-flex items-center justify-center size-10 border border-border text-muted-foreground hover:text-accent hover:border-accent transition-colors"
                   >
-                    {l.label}
+                    <span className="text-[10px] uppercase tracking-widest">{l.label.slice(0, 2)}</span>
                   </a>
                 ))}
               </div>
             </div>
+
+            {/* Studio Destinations */}
+            <div>
+              <h4 className="font-serif text-lg tracking-[0.22em] uppercase mb-8">
+                {s.represented_by_label ?? "Studio Destinations"}
+              </h4>
+              <div className="text-sm leading-relaxed text-muted-foreground whitespace-pre-line">
+                {s.represented_by ?? ""}
+              </div>
+            </div>
+
+            {/* Concierge Desk */}
+            <div>
+              <h4 className="font-serif text-lg tracking-[0.22em] uppercase mb-8">
+                {s.clients_label ?? "Concierge Desk"}
+              </h4>
+              {s.contact_email && (
+                <div className="mb-6">
+                  <p className="text-[10px] uppercase tracking-[0.25em] text-muted-foreground mb-2">
+                    Enquiry Channels
+                  </p>
+                  <a
+                    href={`mailto:${s.contact_email}`}
+                    className="inline-flex items-center gap-2 text-sm text-accent hover:brightness-110 transition"
+                  >
+                    <span>✉</span> {s.contact_email}
+                  </a>
+                </div>
+              )}
+              <div className="text-sm text-muted-foreground whitespace-pre-line">
+                {s.clients ?? ""}
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-16 pt-8 border-t border-border flex flex-col sm:flex-row justify-between items-center gap-4">
+            <span className="text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
+              {s.copyright ?? ""}
+            </span>
+            <button
+              onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+              className="inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.25em] text-foreground hover:text-accent transition-colors"
+            >
+              Re-ascend to Sky <span>↑</span>
+            </button>
           </div>
         </div>
       </footer>
