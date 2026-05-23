@@ -9,6 +9,8 @@ import {
   fetchGalleryPhotos,
   fetchSocialLinks,
   fetchIndexEntries,
+  fetchExperiences,
+  fetchReviews,
   uploadPhoto,
   type Gallery,
 } from "@/lib/content-queries";
