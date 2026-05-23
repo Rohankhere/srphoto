@@ -116,6 +116,10 @@ const SETTING_FIELDS: { key: string; label: string; type: "text" | "textarea" | 
   { key: "represented_by", label: "Representation (one per line)", type: "textarea" },
   { key: "clients_label", label: "Clients label", type: "text" },
   { key: "clients", label: "Clients (one per line)", type: "textarea" },
+  { key: "experience_eyebrow", label: "Experience section eyebrow", type: "text" },
+  { key: "experience_title", label: "Experience section title", type: "text" },
+  { key: "reviews_eyebrow", label: "Reviews section eyebrow", type: "text" },
+  { key: "reviews_title", label: "Reviews section title", type: "text" },
   { key: "copyright", label: "Copyright text", type: "text" },
 ];
 
