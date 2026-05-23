@@ -446,3 +446,174 @@ function Index() {
     </div>
   );
 }
+
+function Stars({ n }: { n: number }) {
+  return (
+    <span className="text-accent text-sm tracking-widest">
+      {"★".repeat(Math.max(0, Math.min(5, n)))}
+      <span className="text-muted-foreground/40">{"★".repeat(5 - Math.max(0, Math.min(5, n)))}</span>
+    </span>
+  );
+}
+
+function ReviewsSection({
+  reviews,
+  eyebrow,
+  title,
+}: {
+  reviews: Review[];
+  eyebrow?: string;
+  title?: string;
+}) {
+  const qc = useQueryClient();
+  const [open, setOpen] = useState<Review | null>(null);
+  const [form, setForm] = useState({ name: "", message: "", rating: 5 });
+  const [busy, setBusy] = useState(false);
+
+  const submit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!form.name.trim() || !form.message.trim()) {
+      toast.error("Please fill in your name and review");
+      return;
+    }
+    setBusy(true);
+    const { error } = await supabase.from("reviews").insert({
+      name: form.name.trim(),
+      message: form.message.trim(),
+      rating: form.rating,
+    });
+    setBusy(false);
+    if (error) return toast.error(error.message);
+    toast.success("Thank you for your review!");
+    setForm({ name: "", message: "", rating: 5 });
+    qc.invalidateQueries({ queryKey: ["reviews"] });
+  };
+
+  // Duplicate list for seamless marquee loop
+  const loop = reviews.length > 0 ? [...reviews, ...reviews] : [];
+
+  return (
+    <section id="reviews" className="py-32 bg-foreground/[0.02] border-t border-border overflow-hidden">
+      <div className="max-w-7xl mx-auto px-6 md:px-10 mb-12">
+        <span className="text-[10px] uppercase tracking-[0.25em] text-accent">
+          {eyebrow ?? "Voices"}
+        </span>
+        <h2 className="mt-4 font-serif text-4xl md:text-5xl font-normal tracking-tight">
+          {title ?? "What clients say"}
+        </h2>
+      </div>
+
+      {reviews.length > 0 ? (
+        <div className="marquee-pause relative">
+          <div className="flex gap-6 w-max animate-marquee">
+            {loop.map((r, i) => (
+              <button
+                key={`${r.id}-${i}`}
+                onClick={() => setOpen(r)}
+                className="text-left w-[320px] md:w-[380px] shrink-0 border border-border bg-background p-7 hover:border-accent/60 hover:-translate-y-1 transition-all"
+              >
+                <Stars n={r.rating} />
+                <p className="mt-4 text-sm leading-relaxed text-muted-foreground line-clamp-4">
+                  “{r.message}”
+                </p>
+                <div className="mt-6 pt-4 border-t border-border flex justify-between items-center">
+                  <span className="font-serif text-base">{r.name}</span>
+                  <span className="text-[10px] uppercase tracking-[0.22em] text-accent">
+                    Read →
+                  </span>
+                </div>
+              </button>
+            ))}
+          </div>
+          <div className="pointer-events-none absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-background to-transparent" />
+          <div className="pointer-events-none absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-background to-transparent" />
+        </div>
+      ) : (
+        <p className="text-center text-sm text-muted-foreground">
+          Be the first to leave a review.
+        </p>
+      )}
+
+      {/* Submit form */}
+      <div className="max-w-2xl mx-auto px-6 md:px-10 mt-20">
+        <h3 className="font-serif text-2xl mb-6 text-center">Leave a review</h3>
+        <form onSubmit={submit} className="space-y-4">
+          <input
+            type="text"
+            placeholder="Your name"
+            value={form.name}
+            maxLength={80}
+            onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
+            className="w-full bg-background border border-border px-4 py-3 text-sm focus:outline-none focus:border-accent transition-colors"
+          />
+          <textarea
+            placeholder="Your experience…"
+            rows={4}
+            value={form.message}
+            maxLength={2000}
+            onChange={(e) => setForm((f) => ({ ...f, message: e.target.value }))}
+            className="w-full bg-background border border-border px-4 py-3 text-sm focus:outline-none focus:border-accent transition-colors resize-none"
+          />
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <span className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
+                Rating
+              </span>
+              {[1, 2, 3, 4, 5].map((n) => (
+                <button
+                  key={n}
+                  type="button"
+                  onClick={() => setForm((f) => ({ ...f, rating: n }))}
+                  className={`text-xl ${
+                    n <= form.rating ? "text-accent" : "text-muted-foreground/40"
+                  } hover:text-accent transition-colors`}
+                  aria-label={`${n} stars`}
+                >
+                  ★
+                </button>
+              ))}
+            </div>
+            <button
+              type="submit"
+              disabled={busy}
+              className="bg-accent text-background px-6 py-3 text-[11px] uppercase tracking-[0.22em] font-semibold hover:brightness-110 transition disabled:opacity-50"
+            >
+              {busy ? "Sending…" : "Submit Review"}
+            </button>
+          </div>
+        </form>
+      </div>
+
+      {/* Read-full modal */}
+      {open && (
+        <div
+          className="fixed inset-0 z-50 bg-background/80 backdrop-blur-sm flex items-center justify-center p-6 animate-fade-up"
+          onClick={() => setOpen(null)}
+        >
+          <div
+            className="bg-background border border-accent/40 max-w-xl w-full p-10 relative"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              onClick={() => setOpen(null)}
+              className="absolute top-4 right-4 text-muted-foreground hover:text-accent text-xl"
+              aria-label="Close"
+            >
+              ✕
+            </button>
+            <Stars n={open.rating} />
+            <p className="mt-6 font-serif text-xl md:text-2xl leading-relaxed whitespace-pre-line">
+              “{open.message}”
+            </p>
+            <div className="mt-8 pt-6 border-t border-border flex justify-between items-center">
+              <span className="font-serif text-lg">— {open.name}</span>
+              <span className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
+                {new Date(open.created_at).toLocaleDateString()}
+              </span>
+            </div>
+          </div>
+        </div>
+      )}
+    </section>
+  );
+}
