@@ -1,14 +1,19 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
 import {
   fetchSiteSettings,
   fetchGalleries,
   fetchGalleryPhotos,
   fetchSocialLinks,
   fetchIndexEntries,
+  fetchExperiences,
+  fetchReviews,
   type Gallery,
   type GalleryPhoto,
+  type Review,
 } from "@/lib/content-queries";
 
 export const Route = createFileRoute("/")({
