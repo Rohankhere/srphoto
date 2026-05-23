@@ -19,7 +19,7 @@ export type GalleryPhoto = {
   sort_order: number;
 };
 
-export type SocialLink = { id: string; label: string; url: string; sort_order: number };
+export type SocialLink = { id: string; label: string; url: string; icon_url: string; sort_order: number };
 export type IndexEntry = {
   id: string;
   number: string;
@@ -28,6 +28,39 @@ export type IndexEntry = {
   note: string;
   sort_order: number;
 };
+export type Experience = {
+  id: string;
+  title: string;
+  role: string;
+  description: string;
+  year: string;
+  sort_order: number;
+};
+export type Review = {
+  id: string;
+  name: string;
+  message: string;
+  rating: number;
+  created_at: string;
+};
+
+export async function fetchExperiences(): Promise<Experience[]> {
+  const { data, error } = await supabase
+    .from("experiences")
+    .select("*")
+    .order("sort_order", { ascending: true });
+  if (error) throw error;
+  return (data ?? []) as Experience[];
+}
+
+export async function fetchReviews(): Promise<Review[]> {
+  const { data, error } = await supabase
+    .from("reviews")
+    .select("*")
+    .order("created_at", { ascending: false });
+  if (error) throw error;
+  return (data ?? []) as Review[];
+}
 
 export async function fetchSiteSettings() {
   const { data, error } = await supabase.from("site_settings").select("*");
