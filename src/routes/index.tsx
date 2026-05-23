@@ -107,11 +107,11 @@ function Index() {
               alt="Hero"
               width={1920}
               height={1280}
-              className="w-full h-full object-cover opacity-60"
+              className="w-full h-full object-cover"
             />
           )}
-          <div className="absolute inset-0 bg-gradient-to-r from-background via-background/85 to-background/40" />
-          <div className="absolute inset-0 bg-gradient-to-b from-background/60 via-transparent to-background" />
+          <div className="absolute inset-0 bg-gradient-to-r from-background via-background/70 to-background/20" />
+          <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-background/10 to-background" />
         </div>
 
         {s.hero_portrait && (
