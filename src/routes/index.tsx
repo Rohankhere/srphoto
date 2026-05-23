@@ -114,6 +114,18 @@ function Index() {
           <div className="absolute inset-0 bg-gradient-to-b from-background/60 via-transparent to-background" />
         </div>
 
+        {s.hero_portrait && (
+          <div className="pointer-events-none absolute inset-y-0 right-0 w-full md:w-[55%] lg:w-[48%] -z-[5] overflow-hidden">
+            <img
+              src={s.hero_portrait}
+              alt=""
+              className="w-full h-full object-cover object-center opacity-90"
+            />
+            <div className="absolute inset-0 bg-gradient-to-r from-background via-background/70 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent" />
+          </div>
+        )}
+
         <div className="max-w-4xl animate-fade-up">
           <div className="inline-flex items-center gap-2 border border-accent/40 bg-accent/5 px-4 py-2 mb-10">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="size-3.5 text-accent">
