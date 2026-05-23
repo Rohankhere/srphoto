@@ -352,8 +352,8 @@ function Index() {
 
             {/* Concierge Desk */}
             <div>
-              <h4 className="font-serif text-lg tracking-[0.22em] uppercase mb-8">
-                {s.clients_label ?? "Concierge Desk"}
+              <h4 className="gap-3 mt-8 flex items-start justify-start">
+                {s.clients_label ?? "​IN"}
               </h4>
               {s.contact_email && (
                 <div className="mb-6">
