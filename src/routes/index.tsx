@@ -178,54 +178,12 @@ function Index() {
 
 
       {/* Works — gallery grid */}
-      <section id="works" className="px-8 py-32">
-        <div className="flex justify-between items-end mb-16 max-w-7xl mx-auto">
-          <div>
-            <span className="text-[10px] uppercase tracking-[0.25em] text-accent">{s.works_eyebrow ?? ""}</span>
-            <h2 className="mt-4 text-4xl md:text-5xl font-light tracking-tight">
-              {s.works_title ?? ""}
-            </h2>
-          </div>
-          <span className="hidden md:block text-[10px] uppercase tracking-widest text-muted-foreground">
-            Click a cover to open
-          </span>
-        </div>
+      <WorksSection
+        galleries={galleries}
+        eyebrow={s.works_eyebrow}
+        title={s.works_title}
+      />
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-7xl mx-auto">
-          {galleries.map((g) => (
-            <Link
-              key={g.id}
-              to="/gallery/$slug"
-              params={{ slug: g.slug }}
-              className="group text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
-            >
-              <div className="relative overflow-hidden aspect-[4/5] bg-muted">
-                {g.cover_url && (
-                  <img
-                    src={g.cover_url}
-                    alt={g.title}
-                    loading="lazy"
-                    className="w-full h-full object-cover transition-transform duration-[1200ms] ease-[var(--ease-out-expo)] group-hover:scale-[1.04]"
-                  />
-                )}
-                <div className="absolute inset-0 bg-foreground/0 group-hover:bg-foreground/10 transition-colors duration-500" />
-                <span className="absolute top-4 left-4 text-[10px] uppercase tracking-widest text-background bg-foreground/40 backdrop-blur-sm px-2 py-1">
-                  {g.photos.length} images
-                </span>
-              </div>
-              <div className="mt-5 flex justify-between items-baseline">
-                <div>
-                  <h3 className="text-lg font-medium">{g.title}</h3>
-                  <p className="text-xs text-muted-foreground mt-1">{g.place}</p>
-                </div>
-                <span className="text-[10px] uppercase tracking-widest text-muted-foreground">
-                  {g.year}
-                </span>
-              </div>
-            </Link>
-          ))}
-        </div>
-      </section>
 
       {/* Full Index */}
       <section id="archive" className="px-8 py-24 bg-foreground text-background">
@@ -614,6 +572,146 @@ function ReviewsSection({
           </div>
         </div>
       )}
+    </section>
+  );
+}
+
+function WorksSection({
+  galleries,
+  eyebrow,
+  title,
+}: {
+  galleries: GalleryWithPhotos[];
+  eyebrow?: string;
+  title?: string;
+}) {
+  const [filter, setFilter] = useState<string>("ALL");
+
+  const categoryOf = (g: GalleryWithPhotos) =>
+    (g.year || g.place?.split(",")[0] || "Featured").toString().toUpperCase();
+
+  const categories = Array.from(new Set(galleries.map(categoryOf)));
+  const visible = filter === "ALL" ? galleries : galleries.filter((g) => categoryOf(g) === filter);
+
+  const renderTitle = (text: string) =>
+    text.split(/(\*[^*]+\*)/g).map((p, i) =>
+      p.startsWith("*") && p.endsWith("*") ? (
+        <em key={i} className="italic font-normal text-accent">{p.slice(1, -1)}</em>
+      ) : (
+        <span key={i}>{p}</span>
+      ),
+    );
+
+  return (
+    <section id="works" className="px-6 md:px-10 py-32">
+      <div className="max-w-7xl mx-auto">
+        {/* Header */}
+        <div className="flex flex-col items-center text-center mb-14">
+          <div className="inline-flex items-center gap-2 border border-accent/40 bg-accent/5 px-4 py-2 mb-8">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="size-3.5 text-accent">
+              <path d="M3 5h18l-7 8v6l-4-2v-4z" />
+            </svg>
+            <span className="text-[10px] uppercase tracking-[0.3em] text-accent font-semibold">
+              {eyebrow ?? "Curated Archive"}
+            </span>
+          </div>
+          <h2 className="font-serif text-[clamp(2.5rem,6vw,5rem)] leading-[1.02] tracking-tight font-normal">
+            {renderTitle(title ?? "Life, *Captured*")}
+          </h2>
+          <span className="mt-6 block h-px w-16 bg-accent" />
+        </div>
+
+        {/* Filter tabs */}
+        {categories.length > 1 && (
+          <div className="flex flex-wrap justify-center gap-3 mb-16">
+            {(["ALL", ...categories] as string[]).map((c) => {
+              const active = filter === c;
+              return (
+                <button
+                  key={c}
+                  onClick={() => setFilter(c)}
+                  className={`px-6 py-3 text-[11px] uppercase tracking-[0.22em] font-semibold transition-all ${
+                    active
+                      ? "bg-accent text-background"
+                      : "bg-muted/40 text-foreground/80 hover:bg-muted hover:text-accent"
+                  }`}
+                >
+                  {c}
+                </button>
+              );
+            })}
+          </div>
+        )}
+
+        {/* Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {visible.map((g) => (
+            <Link
+              key={g.id}
+              to="/gallery/$slug"
+              params={{ slug: g.slug }}
+              className="group block border border-border/60 bg-card overflow-hidden focus:outline-none focus-visible:ring-2 focus-visible:ring-accent transition-colors hover:border-accent/60"
+            >
+              <div className="relative overflow-hidden aspect-[4/5] bg-muted">
+                {g.cover_url && (
+                  <img
+                    src={g.cover_url}
+                    alt={g.title}
+                    loading="lazy"
+                    className="w-full h-full object-cover transition-transform duration-[1200ms] ease-[var(--ease-out-expo)] group-hover:scale-[1.06]"
+                  />
+                )}
+
+                {/* Category badge */}
+                <span className="absolute top-4 right-4 text-[10px] uppercase tracking-[0.22em] font-semibold text-accent bg-background/80 backdrop-blur-sm px-3 py-1.5 border border-accent/40">
+                  {categoryOf(g)}
+                </span>
+
+                {/* Dark hover overlay */}
+                <div className="absolute inset-0 bg-background/0 group-hover:bg-background/55 transition-colors duration-500" />
+
+                {/* Eye icon reveals on hover */}
+                <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                  <span className="inline-flex items-center justify-center size-14 rounded-full bg-accent text-background opacity-0 scale-75 group-hover:opacity-100 group-hover:scale-100 transition-all duration-500 ease-[var(--ease-out-expo)] shadow-lg">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="size-6">
+                      <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z" />
+                      <circle cx="12" cy="12" r="3" />
+                    </svg>
+                  </span>
+                </div>
+
+                {/* Hover info slides up */}
+                <div className="absolute inset-x-0 bottom-0 p-5 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 ease-[var(--ease-out-expo)]">
+                  <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-accent">
+                    View Gallery →
+                  </p>
+                </div>
+              </div>
+
+              {/* Bottom info bar */}
+              <div className="p-5 bg-card">
+                <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
+                  {g.photos.length} Frames · {g.year}
+                </p>
+                <h3 className="mt-2 font-serif text-xl text-accent italic">{g.title}</h3>
+                <p className="mt-2 flex items-center gap-1.5 text-xs text-muted-foreground">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="size-3.5 text-accent">
+                    <path d="M12 22s7-7.5 7-13a7 7 0 10-14 0c0 5.5 7 13 7 13z" />
+                    <circle cx="12" cy="9" r="2.5" />
+                  </svg>
+                  {g.place}
+                </p>
+              </div>
+            </Link>
+          ))}
+        </div>
+
+        {visible.length === 0 && (
+          <p className="text-center text-sm text-muted-foreground mt-12">
+            No galleries in this category yet.
+          </p>
+        )}
+      </div>
     </section>
   );
 }
