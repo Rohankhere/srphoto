@@ -476,6 +476,7 @@ function GalleriesEditor() {
       title: "New Gallery",
       place: "",
       year: "",
+      category: "",
       description: "",
       cover_url: "",
       sort_order: (galleries?.length ?? 0) + 1,
