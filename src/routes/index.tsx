@@ -186,30 +186,30 @@ function Index() {
 
 
       {/* Full Index */}
-      <section id="archive" className="px-8 py-24 bg-foreground text-background">
+      <section id="archive" className="px-8 py-24 bg-background text-foreground border-t border-border">
         <div className="max-w-7xl mx-auto">
           <div className="flex justify-between items-end mb-16">
-            <h3 className="text-3xl md:text-4xl font-light">{s.archive_title ?? ""}</h3>
-            <span className="text-[10px] tracking-widest opacity-50 uppercase">
+            <h3 className="text-3xl md:text-4xl font-light font-serif">{s.archive_title ?? ""}</h3>
+            <span className="text-[10px] tracking-widest text-accent uppercase">
               {s.archive_caption ?? ""}
             </span>
           </div>
-          <div className="border-t border-background/10">
+          <div className="border-t border-accent/30">
             {(indexQ.data ?? []).map((e) => (
               <div
                 key={e.id}
-                className="grid grid-cols-12 py-6 border-b border-background/10 group cursor-pointer hover:bg-background/5 transition-colors"
+                className="grid grid-cols-12 py-6 border-b border-accent/20 group cursor-pointer hover:bg-accent/5 transition-colors"
               >
-                <span className="col-span-2 md:col-span-1 text-[10px] self-center opacity-40">
+                <span className="col-span-2 md:col-span-1 text-[10px] self-center text-accent/70">
                   {e.number}
                 </span>
-                <span className="col-span-10 md:col-span-5 text-xl md:text-2xl font-light">
+                <span className="col-span-10 md:col-span-5 text-xl md:text-2xl font-light group-hover:text-accent transition-colors">
                   {e.title}
                 </span>
-                <span className="hidden md:flex col-span-3 text-[10px] self-center opacity-40 uppercase tracking-widest">
+                <span className="hidden md:flex col-span-3 text-[10px] self-center text-muted-foreground uppercase tracking-widest">
                   {e.place}
                 </span>
-                <span className="hidden md:flex col-span-3 justify-end text-[10px] self-center opacity-40 uppercase tracking-widest">
+                <span className="hidden md:flex col-span-3 justify-end text-[10px] self-center text-muted-foreground uppercase tracking-widest">
                   {e.note}
                 </span>
               </div>
@@ -217,6 +217,7 @@ function Index() {
           </div>
         </div>
       </section>
+
 
       {/* Experience / Projects */}
       <section id="experience" className="px-6 md:px-10 py-32 bg-background border-t border-border">
