@@ -46,6 +46,7 @@ export type Database = {
       }
       galleries: {
         Row: {
+          category: string
           cover_url: string
           created_at: string
           description: string
@@ -57,6 +58,7 @@ export type Database = {
           year: string
         }
         Insert: {
+          category?: string
           cover_url?: string
           created_at?: string
           description?: string
@@ -68,6 +70,7 @@ export type Database = {
           year?: string
         }
         Update: {
+          category?: string
           cover_url?: string
           created_at?: string
           description?: string
