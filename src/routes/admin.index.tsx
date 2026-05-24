@@ -529,6 +529,7 @@ function GalleryDetail({ gallery, onBack }: { gallery: Gallery; onBack: () => vo
     slug: gallery.slug,
     place: gallery.place,
     year: gallery.year,
+    category: gallery.category ?? "",
     description: gallery.description,
     cover_url: gallery.cover_url,
   });
