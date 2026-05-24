@@ -178,54 +178,12 @@ function Index() {
 
 
       {/* Works — gallery grid */}
-      <section id="works" className="px-8 py-32">
-        <div className="flex justify-between items-end mb-16 max-w-7xl mx-auto">
-          <div>
-            <span className="text-[10px] uppercase tracking-[0.25em] text-accent">{s.works_eyebrow ?? ""}</span>
-            <h2 className="mt-4 text-4xl md:text-5xl font-light tracking-tight">
-              {s.works_title ?? ""}
-            </h2>
-          </div>
-          <span className="hidden md:block text-[10px] uppercase tracking-widest text-muted-foreground">
-            Click a cover to open
-          </span>
-        </div>
+      <WorksSection
+        galleries={galleries}
+        eyebrow={s.works_eyebrow}
+        title={s.works_title}
+      />
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-7xl mx-auto">
-          {galleries.map((g) => (
-            <Link
-              key={g.id}
-              to="/gallery/$slug"
-              params={{ slug: g.slug }}
-              className="group text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
-            >
-              <div className="relative overflow-hidden aspect-[4/5] bg-muted">
-                {g.cover_url && (
-                  <img
-                    src={g.cover_url}
-                    alt={g.title}
-                    loading="lazy"
-                    className="w-full h-full object-cover transition-transform duration-[1200ms] ease-[var(--ease-out-expo)] group-hover:scale-[1.04]"
-                  />
-                )}
-                <div className="absolute inset-0 bg-foreground/0 group-hover:bg-foreground/10 transition-colors duration-500" />
-                <span className="absolute top-4 left-4 text-[10px] uppercase tracking-widest text-background bg-foreground/40 backdrop-blur-sm px-2 py-1">
-                  {g.photos.length} images
-                </span>
-              </div>
-              <div className="mt-5 flex justify-between items-baseline">
-                <div>
-                  <h3 className="text-lg font-medium">{g.title}</h3>
-                  <p className="text-xs text-muted-foreground mt-1">{g.place}</p>
-                </div>
-                <span className="text-[10px] uppercase tracking-widest text-muted-foreground">
-                  {g.year}
-                </span>
-              </div>
-            </Link>
-          ))}
-        </div>
-      </section>
 
       {/* Full Index */}
       <section id="archive" className="px-8 py-24 bg-foreground text-background">
