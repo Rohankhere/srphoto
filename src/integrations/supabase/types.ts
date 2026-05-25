@@ -50,6 +50,60 @@ export type Database = {
         }
         Relationships: []
       }
+      chat_messages: {
+        Row: {
+          content: string
+          created_at: string
+          id: string
+          role: string
+          session_id: string
+        }
+        Insert: {
+          content: string
+          created_at?: string
+          id?: string
+          role: string
+          session_id: string
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          id?: string
+          role?: string
+          session_id?: string
+        }
+        Relationships: []
+      }
+      chat_sessions: {
+        Row: {
+          created_at: string
+          id: string
+          last_emailed_at: string | null
+          session_id: string
+          updated_at: string
+          visitor_email: string
+          visitor_name: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          last_emailed_at?: string | null
+          session_id: string
+          updated_at?: string
+          visitor_email?: string
+          visitor_name?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          last_emailed_at?: string | null
+          session_id?: string
+          updated_at?: string
+          visitor_email?: string
+          visitor_name?: string
+        }
+        Relationships: []
+      }
       experiences: {
         Row: {
           created_at: string
