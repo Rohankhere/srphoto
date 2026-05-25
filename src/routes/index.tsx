@@ -98,7 +98,7 @@ function Index() {
           <Link to="/contact" className="hover:text-accent transition-colors">Contact</Link>
         </div>
         <Link
-          to="/contact"
+          to="/book"
           className="hidden md:inline-flex items-center gap-2 bg-accent text-background px-5 py-3 text-[11px] uppercase tracking-[0.22em] font-semibold hover:brightness-110 transition"
         >
           Book Session
@@ -156,7 +156,7 @@ function Index() {
 
           <div className="flex flex-wrap gap-4 items-center">
             <Link
-              to="/contact"
+              to="/book"
               className="group inline-flex items-center gap-3 bg-accent text-background px-7 py-4 text-[11px] uppercase tracking-[0.25em] font-semibold hover:brightness-110 transition"
             >
               Book Your Session
