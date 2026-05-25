@@ -8,6 +8,7 @@ import {
   Scripts,
 } from "@tanstack/react-router";
 import { Toaster } from "@/components/ui/sonner";
+import { ChatWidget } from "@/components/ChatWidget";
 
 import appCss from "../styles.css?url";
 
