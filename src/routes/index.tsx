@@ -647,46 +647,57 @@ function WorksSection({
         )}
 
         {/* Grid — clean image cards with category badge */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
           {visible.map((g) => (
             <Link
               key={g.id}
               to="/gallery/$slug"
               params={{ slug: g.slug }}
-              className="group relative block overflow-hidden bg-card focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+              className="group relative block bg-card border border-border hover:border-accent transition-all duration-500 shadow-[0_4px_20px_-8px_rgba(0,0,0,0.4)] hover:shadow-[0_18px_50px_-12px_color-mix(in_oklab,var(--accent)_45%,transparent)] hover:-translate-y-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
             >
-              <div className="relative overflow-hidden aspect-[4/5] bg-muted">
-                {g.cover_url && (
-                  <img
-                    src={g.cover_url}
-                    alt={g.title}
-                    loading="lazy"
-                    className="w-full h-full object-cover transition-transform duration-[1200ms] ease-[var(--ease-out-expo)] group-hover:scale-[1.06]"
-                  />
-                )}
-
-                {/* Category badge */}
-                <span className="absolute top-4 right-4 z-10 text-[10px] uppercase tracking-[0.22em] font-semibold text-accent bg-background/85 backdrop-blur-sm px-3 py-1.5 border border-accent/40">
-                  {categoryOf(g)}
-                </span>
-
-                {/* Gradient + info reveal on hover */}
-                <div className="absolute inset-0 bg-gradient-to-t from-background/95 via-background/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-
-                <div className="absolute inset-x-0 bottom-0 p-5 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 ease-[var(--ease-out-expo)]">
-                  <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-accent mb-2">
-                    {g.photos.length} Frames · {g.year}
-                  </p>
-                  <h3 className="font-serif text-2xl text-foreground italic leading-tight">{g.title}</h3>
-                  {g.place && (
-                    <p className="mt-2 flex items-center gap-1.5 text-xs text-muted-foreground">
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="size-3.5 text-accent">
-                        <path d="M12 22s7-7.5 7-13a7 7 0 10-14 0c0 5.5 7 13 7 13z" />
-                        <circle cx="12" cy="9" r="2.5" />
-                      </svg>
-                      {g.place}
-                    </p>
+              <div className="p-3">
+                <div className="relative overflow-hidden aspect-[3/4] bg-muted ring-1 ring-border group-hover:ring-accent/60 transition-colors">
+                  {g.cover_url && (
+                    <img
+                      src={g.cover_url}
+                      alt={g.title}
+                      loading="lazy"
+                      className="w-full h-full object-cover transition-transform duration-[1200ms] ease-[var(--ease-out-expo)] group-hover:scale-[1.06]"
+                    />
                   )}
+
+                  {/* Category badge */}
+                  <span className="absolute top-4 right-4 z-10 text-[10px] uppercase tracking-[0.22em] font-semibold text-accent bg-background/85 backdrop-blur-sm px-3 py-1.5 border border-accent/40">
+                    {categoryOf(g)}
+                  </span>
+
+                  {/* Gradient + info reveal on hover */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-background/95 via-background/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+                  <div className="absolute inset-x-0 bottom-0 p-5 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 ease-[var(--ease-out-expo)]">
+                    <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-accent mb-2">
+                      {g.photos.length} Frames · {g.year}
+                    </p>
+                    <h3 className="font-serif text-2xl text-foreground italic leading-tight">{g.title}</h3>
+                    {g.place && (
+                      <p className="mt-2 flex items-center gap-1.5 text-xs text-muted-foreground">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="size-3.5 text-accent">
+                          <path d="M12 22s7-7.5 7-13a7 7 0 10-14 0c0 5.5 7 13 7 13z" />
+                          <circle cx="12" cy="9" r="2.5" />
+                        </svg>
+                        {g.place}
+                      </p>
+                    )}
+                  </div>
+                </div>
+                {/* Static caption (always visible) */}
+                <div className="px-2 pt-4 pb-2 flex items-baseline justify-between gap-3">
+                  <h3 className="font-serif text-lg leading-tight truncate group-hover:text-accent transition-colors">
+                    {g.title}
+                  </h3>
+                  <span className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground shrink-0">
+                    {g.year}
+                  </span>
                 </div>
               </div>
             </Link>
