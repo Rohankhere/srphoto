@@ -355,36 +355,38 @@ function Index() {
               </div>
             </div>
 
-            {/* Studio Destinations */}
+            {/* Location */}
             <div>
               <h4 className="font-serif text-lg tracking-[0.22em] uppercase mb-8">
-                {s.represented_by_label ?? "Studio Destinations"}
+                Location
               </h4>
               <div className="text-sm leading-relaxed text-muted-foreground whitespace-pre-line">
                 {s.represented_by ?? ""}
               </div>
             </div>
 
-            {/* Concierge Desk */}
+            {/* Enquiry */}
             <div>
-              <h4 className="gap-3 mt-8 flex items-start justify-start">
-                {s.clients_label ?? "​IN"}
+              <h4 className="font-serif text-lg tracking-[0.22em] uppercase mb-8">
+                Enquiry
               </h4>
-              {s.contact_email && (
-                <div className="mb-6">
-                  <p className="text-[10px] uppercase tracking-[0.25em] text-muted-foreground mb-2">
-                    Enquiry Channels
-                  </p>
+              <div className="space-y-3 text-sm">
+                {s.contact_email && (
                   <a
                     href={`mailto:${s.contact_email}`}
-                    className="inline-flex items-center gap-2 text-sm text-accent hover:brightness-110 transition"
+                    className="flex items-center gap-2 text-muted-foreground hover:text-accent transition-colors"
                   >
                     <span>✉</span> {s.contact_email}
                   </a>
-                </div>
-              )}
-              <div className="text-sm text-muted-foreground whitespace-pre-line">
-                {s.clients ?? ""}
+                )}
+                {s.contact_phone && (
+                  <a
+                    href={`tel:${s.contact_phone.replace(/\s+/g, "")}`}
+                    className="flex items-center gap-2 text-muted-foreground hover:text-accent transition-colors"
+                  >
+                    <span>☎</span> {s.contact_phone}
+                  </a>
+                )}
               </div>
             </div>
           </div>
