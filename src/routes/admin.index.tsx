@@ -78,6 +78,7 @@ function AdminPage() {
             <TabsTrigger value="archive">Archive</TabsTrigger>
             <TabsTrigger value="experience">Experience</TabsTrigger>
             <TabsTrigger value="reviews">Reviews</TabsTrigger>
+            <TabsTrigger value="chats">Chats</TabsTrigger>
           </TabsList>
           <TabsContent value="settings"><SiteSettingsEditor /></TabsContent>
           <TabsContent value="galleries"><GalleriesEditor /></TabsContent>
@@ -85,11 +86,177 @@ function AdminPage() {
           <TabsContent value="archive"><ArchiveEditor /></TabsContent>
           <TabsContent value="experience"><ExperienceEditor /></TabsContent>
           <TabsContent value="reviews"><ReviewsEditor /></TabsContent>
+          <TabsContent value="chats"><ChatsViewer /></TabsContent>
         </Tabs>
       </main>
     </div>
   );
 }
+
+/* ---------------- Chats ---------------- */
+
+type ChatSession = {
+  session_id: string;
+  visitor_name: string;
+  visitor_email: string;
+  last_emailed_at: string | null;
+  created_at: string;
+  updated_at: string;
+};
+
+type ChatMessage = {
+  id: string;
+  session_id: string;
+  role: "user" | "assistant";
+  content: string;
+  created_at: string;
+};
+
+function ChatsViewer() {
+  const [search, setSearch] = useState("");
+  const [selected, setSelected] = useState<string | null>(null);
+  const [resending, setResending] = useState(false);
+  const resend = useServerFn(resendChatTranscript);
+
+  const sessionsQ = useQuery({
+    queryKey: ["admin-chat-sessions"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("chat_sessions")
+        .select("session_id, visitor_name, visitor_email, last_emailed_at, created_at, updated_at")
+        .order("updated_at", { ascending: false })
+        .limit(500);
+      if (error) throw error;
+      return (data ?? []) as ChatSession[];
+    },
+  });
+
+  const messagesQ = useQuery({
+    queryKey: ["admin-chat-messages", selected],
+    enabled: !!selected,
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("chat_messages")
+        .select("id, session_id, role, content, created_at")
+        .eq("session_id", selected!)
+        .order("created_at", { ascending: true });
+      if (error) throw error;
+      return (data ?? []) as ChatMessage[];
+    },
+  });
+
+  const filtered = useMemo(() => {
+    const s = search.trim().toLowerCase();
+    if (!s) return sessionsQ.data ?? [];
+    return (sessionsQ.data ?? []).filter(
+      (x) =>
+        x.session_id.toLowerCase().includes(s) ||
+        x.visitor_email.toLowerCase().includes(s) ||
+        x.visitor_name.toLowerCase().includes(s),
+    );
+  }, [search, sessionsQ.data]);
+
+  const onResend = async (sessionId: string) => {
+    setResending(true);
+    try {
+      const res = await resend({ data: { sessionId } });
+      toast.success(`Transcript queued to ${res.to}`);
+    } catch (err: any) {
+      toast.error(err?.message || "Failed to resend transcript");
+    } finally {
+      setResending(false);
+    }
+  };
+
+  return (
+    <div className="grid md:grid-cols-[1fr_1.3fr] gap-4">
+      <Card className="p-4">
+        <div className="flex items-center gap-2 mb-3">
+          <Search className="size-4 text-muted-foreground" />
+          <Input
+            placeholder="Search by session ID, name, or email"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+        </div>
+        <div className="text-xs text-muted-foreground mb-2">
+          {sessionsQ.isLoading ? "Loading…" : `${filtered.length} session(s)`}
+        </div>
+        <div className="space-y-1 max-h-[70vh] overflow-y-auto">
+          {filtered.map((s) => (
+            <button
+              key={s.session_id}
+              onClick={() => setSelected(s.session_id)}
+              className={`w-full text-left p-3 rounded border transition-colors ${
+                selected === s.session_id
+                  ? "border-primary bg-primary/5"
+                  : "border-border hover:bg-muted/40"
+              }`}
+            >
+              <div className="text-sm font-medium truncate">
+                {s.visitor_name || s.visitor_email || "Anonymous visitor"}
+              </div>
+              <div className="text-xs text-muted-foreground truncate">
+                {s.visitor_email || "no email"} · {s.session_id.slice(0, 8)}
+              </div>
+              <div className="text-[10px] text-muted-foreground mt-1">
+                Updated {new Date(s.updated_at).toLocaleString()}
+                {s.last_emailed_at && " · emailed"}
+              </div>
+            </button>
+          ))}
+          {!sessionsQ.isLoading && filtered.length === 0 && (
+            <div className="text-sm text-muted-foreground p-3">No sessions found.</div>
+          )}
+        </div>
+      </Card>
+
+      <Card className="p-4">
+        {!selected ? (
+          <div className="text-sm text-muted-foreground">Select a session to view messages.</div>
+        ) : (
+          <>
+            <div className="flex items-center justify-between mb-3 gap-2 flex-wrap">
+              <div className="text-xs text-muted-foreground font-mono break-all">{selected}</div>
+              <Button
+                size="sm"
+                onClick={() => onResend(selected)}
+                disabled={resending || messagesQ.isLoading}
+              >
+                <Mail className="size-3 mr-1" />
+                {resending ? "Sending…" : "Resend transcript"}
+              </Button>
+            </div>
+            <div className="space-y-3 max-h-[70vh] overflow-y-auto">
+              {(messagesQ.data ?? []).map((m) => (
+                <div
+                  key={m.id}
+                  className={`p-3 rounded text-sm ${
+                    m.role === "user"
+                      ? "bg-primary/10 border border-primary/20"
+                      : "bg-muted/50 border border-border"
+                  }`}
+                >
+                  <div className="text-[10px] uppercase tracking-wide text-muted-foreground mb-1">
+                    {m.role} · {new Date(m.created_at).toLocaleString()}
+                  </div>
+                  <div className="whitespace-pre-wrap">{m.content}</div>
+                </div>
+              ))}
+              {messagesQ.isLoading && (
+                <div className="text-sm text-muted-foreground">Loading messages…</div>
+              )}
+              {!messagesQ.isLoading && (messagesQ.data ?? []).length === 0 && (
+                <div className="text-sm text-muted-foreground">No messages.</div>
+              )}
+            </div>
+          </>
+        )}
+      </Card>
+    </div>
+  );
+}
+
 
 /* ---------------- Site settings ---------------- */
 
