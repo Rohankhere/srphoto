@@ -66,7 +66,7 @@
   100% { transform: translateX(-50%); }
 }
 .animate-marquee {
-  animation: marquee-x 40s linear infinite;
+  animation: marquee-x 22s linear infinite;
 }
 .marquee-pause:hover .animate-marquee {
   animation-play-state: paused;
