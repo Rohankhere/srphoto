@@ -190,16 +190,18 @@ function Index() {
       {/* Full Index */}
       <section id="archive" className="px-8 py-24 bg-background text-foreground border-t border-border">
         <div className="max-w-7xl mx-auto">
-          <div className="flex justify-between items-end mb-16">
+          <div className="flex justify-between items-end mb-16" data-reveal>
             <h3 className="text-3xl md:text-4xl font-light font-serif">{s.archive_title ?? ""}</h3>
             <span className="text-[10px] tracking-widest text-accent uppercase">
               {s.archive_caption ?? ""}
             </span>
           </div>
           <div className="border-t border-accent/30">
-            {(indexQ.data ?? []).map((e) => (
+            {(indexQ.data ?? []).map((e, i) => (
               <div
                 key={e.id}
+                data-reveal
+                data-reveal-delay={Math.min(i, 4)}
                 className="grid grid-cols-12 py-6 border-b border-accent/20 group cursor-pointer hover:bg-accent/5 transition-colors"
               >
                 <span className="col-span-2 md:col-span-1 text-[10px] self-center text-accent/70">
