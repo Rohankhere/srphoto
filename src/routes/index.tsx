@@ -226,7 +226,7 @@ function Index() {
       {/* Experience / Projects */}
       <section id="experience" className="px-6 md:px-10 py-32 bg-background border-t border-border">
         <div className="max-w-7xl mx-auto">
-          <div className="mb-16">
+          <div className="mb-16" data-reveal>
             <span className="text-[10px] uppercase tracking-[0.25em] text-accent">
               {s.experience_eyebrow ?? "Chronicle"}
             </span>
@@ -235,10 +235,12 @@ function Index() {
             </h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {(experiencesQ.data ?? []).map((x) => (
+            {(experiencesQ.data ?? []).map((x, i) => (
               <div
                 key={x.id}
-                className="border border-border p-8 hover:border-accent/60 transition-colors group"
+                data-reveal
+                data-reveal-delay={i % 4}
+                className="border border-border p-8 hover:border-accent/60 hover:-translate-y-1 transition-all duration-500 group"
               >
                 <div className="flex justify-between items-baseline mb-3">
                   <h3 className="font-serif text-2xl">{x.title}</h3>
