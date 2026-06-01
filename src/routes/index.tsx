@@ -659,6 +659,8 @@ function WorksSection({
               key={g.id}
               to="/gallery/$slug"
               params={{ slug: g.slug }}
+              data-reveal
+              data-reveal-delay={i % 4}
               className="group relative block bg-card border border-border hover:border-accent transition-all duration-500 shadow-[0_4px_20px_-8px_rgba(0,0,0,0.4)] hover:shadow-[0_18px_50px_-12px_color-mix(in_oklab,var(--accent)_45%,transparent)] hover:-translate-y-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
             >
               <div className="p-3">
