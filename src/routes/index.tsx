@@ -271,7 +271,7 @@ function Index() {
       {/* Contact CTA */}
       <section className="px-6 md:px-8 py-32 bg-background border-t border-border">
 
-        <div className="max-w-5xl mx-auto text-center">
+        <div className="max-w-5xl mx-auto text-center" data-reveal>
           <span className="text-[10px] uppercase tracking-[0.25em] text-accent">
             Ready to create
           </span>
