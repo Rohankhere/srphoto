@@ -74,14 +74,18 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
+      { title: "S.R. Photo Studio" },
+      { name: "description", content: "My Best Shots creates professional photographer portfolio websites with customizable galleries and an admin panel." },
       { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { property: "og:title", content: "S.R. Photo Studio" },
+      { property: "og:description", content: "My Best Shots creates professional photographer portfolio websites with customizable galleries and an admin panel." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:site", content: "@Lovable" },
+      { name: "twitter:title", content: "S.R. Photo Studio" },
+      { name: "twitter:description", content: "My Best Shots creates professional photographer portfolio websites with customizable galleries and an admin panel." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/c667d257-fc58-40d8-a576-5acc57472c5e/id-preview-e730c0a7--832aa9ad-8fcb-43c5-8027-f722958fe441.lovable.app-1780392628743.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/c667d257-fc58-40d8-a576-5acc57472c5e/id-preview-e730c0a7--832aa9ad-8fcb-43c5-8027-f722958fe441.lovable.app-1780392628743.png" },
     ],
     links: [
       {
