@@ -1,4 +1,4 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { QueryClient, QueryClientProvider, useQuery } from "@tanstack/react-query";
 import {
   Outlet,
   Link,
@@ -9,6 +9,8 @@ import {
 } from "@tanstack/react-router";
 import { Toaster } from "@/components/ui/sonner";
 import { ChatWidget } from "@/components/ChatWidget";
+import { LoadingScreen } from "@/components/LoadingScreen";
+import { fetchSiteSettings } from "@/lib/content-queries";
 
 import appCss from "../styles.css?url";
 
