@@ -99,10 +99,42 @@
 }
 .animate-float { animation: float-y 6s ease-in-out infinite; }
 
-@media (prefers-reduced-motion: reduce) {
-  [data-reveal] { opacity: 1; transform: none; transition: none; }
-  .animate-marquee, .animate-float, .animate-fade-up { animation: none !important; }
+.animate-float { animation: float-y 6s ease-in-out infinite; }
+
+@keyframes drone-left-to-right {
+  0% { transform: translateX(-20vw) translateY(0); opacity: 0; }
+  10% { opacity: 0.9; }
+  50% { transform: translateX(50vw) translateY(-12px); }
+  90% { opacity: 0.9; }
+  100% { transform: translateX(120vw) translateY(0); opacity: 0; }
 }
+@keyframes drone-right-to-left {
+  0% { transform: translateX(20vw) translateY(0); opacity: 0; }
+  10% { opacity: 0.9; }
+  50% { transform: translateX(-50vw) translateY(10px); }
+  90% { opacity: 0.9; }
+  100% { transform: translateX(-120vw) translateY(0); opacity: 0; }
+}
+.animate-drone-1 { animation: drone-left-to-right 6s ease-in-out infinite; }
+.animate-drone-2 { animation: drone-right-to-left 7s ease-in-out infinite 0.5s; }
+.animate-drone-3 { animation: drone-left-to-right 8s ease-in-out infinite 1.2s; }
+
+@keyframes ken-burns {
+  0% { transform: scale(1.05) translate(0, 0); }
+  50% { transform: scale(1.12) translate(-1.5%, -1%); }
+  100% { transform: scale(1.05) translate(0, 0); }
+}
+.animate-ken-burns { animation: ken-burns 18s ease-in-out infinite; }
+
+@keyframes press-pop {
+  0% { transform: scale(1); }
+  40% { transform: scale(0.94); }
+  100% { transform: scale(1); }
+}
+.btn-press { transition: transform 0.2s var(--ease-out-expo), box-shadow 0.2s; }
+.btn-press:hover { transform: translateY(-2px); box-shadow: 0 10px 24px -12px color-mix(in oklch, var(--accent) 60%, transparent); }
+.btn-press:active { animation: press-pop 0.35s ease-out; }
+
 
 @layer base {
   * {
