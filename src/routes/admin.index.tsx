@@ -274,6 +274,7 @@ const SETTING_FIELDS: { key: string; label: string; type: "text" | "textarea" | 
   { key: "archive_caption", label: "Archive caption", type: "text" },
   { key: "about_bio", label: "About / bio paragraph", type: "textarea" },
   { key: "contact_email", label: "Contact email", type: "text" },
+  { key: "contact_phone", label: "Contact phone", type: "text" },
   { key: "contact_title", label: "Contact page title", type: "text" },
   { key: "contact_subtitle", label: "Contact page subtitle", type: "textarea" },
   { key: "whatsapp_number", label: "WhatsApp number (with country code, no +)", type: "text" },

@@ -101,7 +101,7 @@ function Index() {
         </div>
         <Link
           to="/book"
-          className="hidden md:inline-flex items-center gap-2 bg-accent text-background px-5 py-3 text-[11px] uppercase tracking-[0.22em] font-semibold hover:brightness-110 transition"
+          className="btn-press hidden md:inline-flex items-center gap-2 bg-accent text-background px-5 py-3 text-[11px] uppercase tracking-[0.22em] font-semibold hover:brightness-110 transition"
         >
           Book Session
         </Link>
@@ -109,18 +109,18 @@ function Index() {
 
       {/* Hero */}
       <section className="relative min-h-screen flex flex-col justify-center px-6 md:px-10 pt-32 pb-20">
-        <div className="absolute inset-0 -z-10">
+        <div className="absolute inset-0 -z-10 overflow-hidden">
           {s.hero_image && (
             <img
               src={s.hero_image}
               alt="Hero"
               width={1920}
               height={1280}
-              className="w-full h-full object-cover"
+              className="w-full h-full object-cover animate-ken-burns"
             />
           )}
-          <div className="absolute inset-0 bg-gradient-to-r from-background via-background/70 to-background/20" />
-          <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-background/10 to-background" />
+          <div className="absolute inset-0 bg-gradient-to-r from-background/85 via-background/40 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-background via-background/10 to-transparent" />
         </div>
 
         {s.hero_portrait && (
@@ -159,14 +159,14 @@ function Index() {
           <div className="flex flex-wrap gap-4 items-center">
             <Link
               to="/book"
-              className="group inline-flex items-center gap-3 bg-accent text-background px-7 py-4 text-[11px] uppercase tracking-[0.25em] font-semibold hover:brightness-110 transition"
+              className="btn-press group inline-flex items-center gap-3 bg-accent text-background px-7 py-4 text-[11px] uppercase tracking-[0.25em] font-semibold hover:brightness-110 transition"
             >
               Book Your Session
               <span className="transition-transform group-hover:translate-x-1">↳</span>
             </Link>
             <a
               href="#works"
-              className="inline-flex items-center gap-3 border border-foreground/30 text-foreground px-7 py-4 text-[11px] uppercase tracking-[0.25em] font-semibold hover:border-accent hover:text-accent transition"
+              className="btn-press inline-flex items-center gap-3 border border-foreground/30 text-foreground px-7 py-4 text-[11px] uppercase tracking-[0.25em] font-semibold hover:border-accent hover:text-accent transition"
             >
               Explore Portfolio
             </a>

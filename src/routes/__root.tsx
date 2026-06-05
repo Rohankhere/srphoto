@@ -1,4 +1,4 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { QueryClient, QueryClientProvider, useQuery } from "@tanstack/react-query";
 import {
   Outlet,
   Link,
@@ -9,6 +9,8 @@ import {
 } from "@tanstack/react-router";
 import { Toaster } from "@/components/ui/sonner";
 import { ChatWidget } from "@/components/ChatWidget";
+import { LoadingScreen } from "@/components/LoadingScreen";
+import { fetchSiteSettings } from "@/lib/content-queries";
 
 import appCss from "../styles.css?url";
 
@@ -74,7 +76,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "S.R. Photo Studio" },
+      { title: "S. R. Photo Studio" },
       { name: "description", content: "My Best Shots creates professional photographer portfolio websites with customizable galleries and an admin panel." },
       { name: "author", content: "Lovable" },
       { property: "og:title", content: "S.R. Photo Studio" },
@@ -119,9 +121,16 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
+      <IntroLoader />
       <Outlet />
       <ChatWidget />
       <Toaster richColors position="top-right" />
     </QueryClientProvider>
   );
 }
+
+function IntroLoader() {
+  const { data } = useQuery({ queryKey: ["site_settings"], queryFn: fetchSiteSettings });
+  return <LoadingScreen logoUrl={data?.nav_logo} brand={data?.nav_brand ?? "S. R. Photo Studio"} />;
+}
+
