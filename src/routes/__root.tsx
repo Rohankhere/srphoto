@@ -74,7 +74,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "S.R. Photo Studio" },
+      { title: "S. R. Photo Studio" },
       { name: "description", content: "My Best Shots creates professional photographer portfolio websites with customizable galleries and an admin panel." },
       { name: "author", content: "Lovable" },
       { property: "og:title", content: "S.R. Photo Studio" },
