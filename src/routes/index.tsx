@@ -20,8 +20,12 @@ import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Photographer Portfolio" },
-      { name: "description", content: "Editorial and architectural photography." },
+      { title: "SR Photo Studio | Harda" },
+      { name: "description", content: "SR Photo Studio | Harda — professional photography for weddings, portraits, and meaningful stories." },
+      { property: "og:title", content: "SR Photo Studio | Harda" },
+      { property: "og:description", content: "SR Photo Studio | Harda — professional photography for weddings, portraits, and meaningful stories." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: Index,
@@ -88,7 +92,7 @@ function Index() {
             </span>
           )}
           <div className="leading-tight">
-            <div className="font-serif text-lg tracking-[0.18em] uppercase">{s.nav_brand ?? "Studio"}</div>
+            <div className="font-serif text-lg tracking-[0.18em] uppercase">{s.nav_brand ?? "SR Photo Studio"}</div>
             <div className="text-[9px] tracking-[0.28em] uppercase text-muted-foreground">{s.hero_eyebrow ?? "Fine Art Editorial"}</div>
           </div>
         </div>
