@@ -1,7 +1,7 @@
 {
-  "name": "S.R. Photo Studio",
-  "shortName": "SR Photo",
-  "description": "Professional photographer portfolio with customizable galleries and an admin panel.",
+  "name": "SR Photo Studio | Harda",
+  "shortName": "SR Photo Studio",
+  "description": "SR Photo Studio | Harda — professional photography for weddings, portraits, and meaningful stories.",
   "version": "1.0.0",
   "language": "en",
   "themeColor": "#0F172A",
@@ -10,7 +10,7 @@
     { "src": "/favicon.ico", "type": "image/x-icon", "sizes": "any" }
   ],
   "routes": [
-    { "path": "/", "title": "Home", "description": "S.R. Photo Studio — portfolio home." },
+    { "path": "/", "title": "SR Photo Studio | Harda", "description": "SR Photo Studio | Harda — portfolio home." },
     { "path": "/gallery/:slug", "title": "Gallery", "description": "Browse a curated photo gallery.", "dynamic": true },
     { "path": "/book", "title": "Book a Session", "description": "Book a photography session." },
     { "path": "/contact", "title": "Contact", "description": "Get in touch with S.R. Photo Studio." },
