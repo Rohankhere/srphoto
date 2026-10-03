@@ -108,15 +108,15 @@ Deno.serve(async (request) => {
     });
     if (userMessageError) throw userMessageError;
 
-    const modelMessages: ModelMessage[] = [
-      { role: "system", content: SYSTEM_PROMPT },
-      ...messages.map((message) => ({ role: message.role, content: message.content })),
-    ];
+    const modelMessages: ModelMessage[] = messages.map((message) => ({
+      role: message.role,
+      content: message.content,
+    }));
     const { result, responseHeaders } = createResponsesCall(request, {
       baseURL: "https://ai.gateway.lovable.dev/v1",
       apiKey: lovableApiKey,
       model: "openai/gpt-6-astra",
-    }, modelMessages);
+    }, modelMessages, SYSTEM_PROMPT);
 
     const reply = (await result.text).trim();
     const headers = await responseHeaders({ ...corsHeaders, "Content-Type": "application/json" });

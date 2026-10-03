@@ -10,6 +10,7 @@ export function createResponsesCall(
   request: Request,
   config: { baseURL: string; apiKey: string; model: string },
   messages: ModelMessage[],
+  instructions?: string,
 ) {
   const runIdFetch = createLovableAiGatewayRunIdFetch(getLovableAiGatewayRunId(request));
   const provider = createOpenAI({
@@ -24,6 +25,7 @@ export function createResponsesCall(
 
   const result = streamText({
     model: provider.responses(config.model),
+    instructions,
     messages,
     abortSignal: request.signal,
     providerOptions: {
