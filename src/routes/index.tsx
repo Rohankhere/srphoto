@@ -398,6 +398,7 @@ function Index() {
                   </a>
                 )}
               </div>
+              <EnquiryForm />
             </div>
           </div>
 
