@@ -1,17 +1,20 @@
 import { createOpenAI } from "npm:@ai-sdk/openai";
-import { streamText, type ModelMessage } from "npm:ai";
+import { type ModelMessage, streamText } from "npm:ai";
 import {
   createLovableAiGatewayRunIdFetch,
-  getLovableAiGatewayRunId,
   getLovableAiGatewayResponseHeaders,
+  getLovableAiGatewayRunId,
 } from "./run-id.ts";
 
 export function createResponsesCall(
   request: Request,
   config: { baseURL: string; apiKey: string; model: string },
   messages: ModelMessage[],
+  instructions?: string,
 ) {
-  const runIdFetch = createLovableAiGatewayRunIdFetch(getLovableAiGatewayRunId(request));
+  const runIdFetch = createLovableAiGatewayRunIdFetch(
+    getLovableAiGatewayRunId(request),
+  );
   const provider = createOpenAI({
     baseURL: `${config.baseURL.replace(/\/+$/, "").replace(/\/v1$/, "")}/v1`,
     apiKey: config.apiKey,
@@ -24,6 +27,7 @@ export function createResponsesCall(
 
   const result = streamText({
     model: provider.responses(config.model),
+    instructions,
     messages,
     abortSignal: request.signal,
     providerOptions: {
