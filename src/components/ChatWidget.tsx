@@ -69,6 +69,9 @@ export function ChatWidget() {
         body: { sessionId: sid, messages: next },
       });
       if (error) throw error;
+      if (typeof data?.reply !== "string" || !data.reply.trim()) {
+        throw new Error(data?.error || "The assistant returned an empty reply.");
+      }
       setMessages((m) => [...m, { role: "assistant", content: data.reply }]);
     } catch (err) {
       console.error(err);
