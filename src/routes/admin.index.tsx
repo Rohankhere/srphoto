@@ -1,10 +1,8 @@
 import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { useServerFn } from "@tanstack/react-start";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/use-auth";
-import { resendChatTranscript } from "@/lib/chat-admin.functions";
 import {
   fetchSiteSettings,
   fetchGalleries,
@@ -116,8 +114,6 @@ function ChatsViewer() {
   const [search, setSearch] = useState("");
   const [selected, setSelected] = useState<string | null>(null);
   const [resending, setResending] = useState(false);
-  const resend = useServerFn(resendChatTranscript);
-
   const sessionsQ = useQuery({
     queryKey: ["admin-chat-sessions"],
     queryFn: async () => {
@@ -159,8 +155,11 @@ function ChatsViewer() {
   const onResend = async (sessionId: string) => {
     setResending(true);
     try {
-      const res = await resend({ data: { sessionId } });
-      toast.success(`Transcript queued to ${res.to}`);
+      const { data, error } = await supabase.functions.invoke("resend-chat-transcript", {
+        body: { sessionId },
+      });
+      if (error) throw error;
+      toast.success(`Transcript queued to ${data.to}`);
     } catch (err: any) {
       toast.error(err?.message || "Failed to resend transcript");
     } finally {

@@ -1,3 +1,3 @@
 # Project Architecture Rules
 
-- Keep the TanStack Start Vite plugin in the Vite plugin chain because file routes, API handlers, and server functions depend on its generated entry aliases and client/server transforms.
+- Keep this site as a browser-only Vite + React application; server-side features belong in Lovable Cloud functions so static hosts only need the `dist` directory.
