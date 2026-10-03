@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { MessageCircle, X, Send } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
 
 type Msg = { role: "user" | "assistant"; content: string };
 
@@ -64,13 +65,10 @@ export function ChatWidget() {
     setInput("");
     setSending(true);
     try {
-      const res = await fetch("/api/chat", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ sessionId: sid, messages: next }),
+      const { data, error } = await supabase.functions.invoke("chat", {
+        body: { sessionId: sid, messages: next },
       });
-      if (!res.ok) throw new Error(await res.text());
-      const data = (await res.json()) as { reply: string };
+      if (error) throw error;
       setMessages((m) => [...m, { role: "assistant", content: data.reply }]);
     } catch (err) {
       console.error(err);
