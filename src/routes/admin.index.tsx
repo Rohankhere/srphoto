@@ -76,7 +76,8 @@ function AdminPage() {
             <TabsTrigger value="archive">Archive</TabsTrigger>
             <TabsTrigger value="experience">Experience</TabsTrigger>
             <TabsTrigger value="reviews">Reviews</TabsTrigger>
-            <TabsTrigger value="chats">Chats</TabsTrigger>
+          <TabsTrigger value="chats">Chats</TabsTrigger>
+          <TabsTrigger value="enquiries">Enquiries</TabsTrigger>
           </TabsList>
           <TabsContent value="settings"><SiteSettingsEditor /></TabsContent>
           <TabsContent value="galleries"><GalleriesEditor /></TabsContent>
@@ -85,6 +86,7 @@ function AdminPage() {
           <TabsContent value="experience"><ExperienceEditor /></TabsContent>
           <TabsContent value="reviews"><ReviewsEditor /></TabsContent>
           <TabsContent value="chats"><ChatsViewer /></TabsContent>
+          <TabsContent value="enquiries"><EnquiriesViewer /></TabsContent>
         </Tabs>
       </main>
     </div>
@@ -109,6 +111,59 @@ type ChatMessage = {
   content: string;
   created_at: string;
 };
+
+function EnquiriesViewer() {
+  const qc = useQueryClient();
+  const enquiriesQ = useQuery({
+    queryKey: ["enquiries"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("enquiries")
+        .select("*")
+        .order("created_at", { ascending: false });
+      if (error) throw error;
+      return data;
+    },
+  });
+
+  const remove = async (id: string) => {
+    const { error } = await supabase.from("enquiries").delete().eq("id", id);
+    if (error) return toast.error(error.message);
+    toast.success("Enquiry deleted");
+    qc.invalidateQueries({ queryKey: ["enquiries"] });
+  };
+
+  if (enquiriesQ.isLoading) return <p className="text-sm text-muted-foreground">Loading enquiries…</p>;
+  const enquiries = enquiriesQ.data ?? [];
+  if (!enquiries.length)
+    return <p className="text-sm text-muted-foreground">No enquiries yet. New submissions from the footer form will appear here.</p>;
+
+  return (
+    <div className="space-y-3">
+      {enquiries.map((e) => (
+        <Card key={e.id} className="p-4">
+          <div className="flex items-start justify-between gap-4">
+            <div className="min-w-0">
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="font-medium">{e.name}</span>
+                <a href={`tel:${e.phone.replace(/\s+/g, "")}`} className="text-sm text-accent hover:underline">
+                  {e.phone}
+                </a>
+                <span className="text-xs text-muted-foreground">
+                  {new Date(e.created_at).toLocaleString()}
+                </span>
+              </div>
+              <p className="text-sm text-muted-foreground mt-2 whitespace-pre-line">{e.message}</p>
+            </div>
+            <Button variant="ghost" size="icon" onClick={() => remove(e.id)} aria-label="Delete enquiry">
+              <Trash2 className="size-4" />
+            </Button>
+          </div>
+        </Card>
+      ))}
+    </div>
+  );
+}
 
 function ChatsViewer() {
   const [search, setSearch] = useState("");

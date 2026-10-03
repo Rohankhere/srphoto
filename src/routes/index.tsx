@@ -398,6 +398,7 @@ function Index() {
                   </a>
                 )}
               </div>
+              <EnquiryForm />
             </div>
           </div>
 
@@ -415,6 +416,69 @@ function Index() {
         </div>
       </footer>
     </div>
+  );
+}
+
+function EnquiryForm() {
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [message, setMessage] = useState("");
+  const [sending, setSending] = useState(false);
+
+  const submit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const n = name.trim();
+    const p = phone.trim();
+    const m = message.trim();
+    if (!n || !p || !m) return toast.error("Please fill in your name, phone and message");
+    if (n.length > 100 || p.length > 30 || m.length > 1000)
+      return toast.error("Please keep your message under 1000 characters");
+    setSending(true);
+    const { error } = await supabase.from("enquiries").insert({ name: n, phone: p, message: m });
+    setSending(false);
+    if (error) return toast.error("Could not send your enquiry. Please try again.");
+    toast.success("Thank you! We received your enquiry and will get back to you soon.");
+    setName("");
+    setPhone("");
+    setMessage("");
+  };
+
+  const inputCls =
+    "w-full bg-transparent border border-border px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground/60 focus:border-accent focus:outline-none transition-colors";
+
+  return (
+    <form onSubmit={submit} className="mt-6 space-y-3">
+      <input
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+        placeholder="Your name"
+        maxLength={100}
+        className={inputCls}
+      />
+      <input
+        value={phone}
+        onChange={(e) => setPhone(e.target.value)}
+        placeholder="Phone number"
+        type="tel"
+        maxLength={30}
+        className={inputCls}
+      />
+      <textarea
+        value={message}
+        onChange={(e) => setMessage(e.target.value)}
+        placeholder="Tell us about your shoot…"
+        rows={3}
+        maxLength={1000}
+        className={`${inputCls} resize-none`}
+      />
+      <button
+        type="submit"
+        disabled={sending}
+        className="btn-press w-full border border-accent text-accent text-[11px] uppercase tracking-[0.25em] py-2.5 hover:bg-accent hover:text-accent-foreground transition-colors disabled:opacity-50"
+      >
+        {sending ? "Sending…" : "Send Enquiry"}
+      </button>
+    </form>
   );
 }
 
