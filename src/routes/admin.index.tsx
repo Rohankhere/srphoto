@@ -76,7 +76,8 @@ function AdminPage() {
             <TabsTrigger value="archive">Archive</TabsTrigger>
             <TabsTrigger value="experience">Experience</TabsTrigger>
             <TabsTrigger value="reviews">Reviews</TabsTrigger>
-            <TabsTrigger value="chats">Chats</TabsTrigger>
+          <TabsTrigger value="chats">Chats</TabsTrigger>
+          <TabsTrigger value="enquiries">Enquiries</TabsTrigger>
           </TabsList>
           <TabsContent value="settings"><SiteSettingsEditor /></TabsContent>
           <TabsContent value="galleries"><GalleriesEditor /></TabsContent>
@@ -85,6 +86,7 @@ function AdminPage() {
           <TabsContent value="experience"><ExperienceEditor /></TabsContent>
           <TabsContent value="reviews"><ReviewsEditor /></TabsContent>
           <TabsContent value="chats"><ChatsViewer /></TabsContent>
+          <TabsContent value="enquiries"><EnquiriesViewer /></TabsContent>
         </Tabs>
       </main>
     </div>
