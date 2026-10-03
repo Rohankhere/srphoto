@@ -1,4 +1,5 @@
 import { QueryClient, QueryClientProvider, useQuery } from "@tanstack/react-query";
+import { lazy } from "react";
 import {
   Outlet,
   Link,
@@ -71,6 +72,8 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   );
 }
 
+const LazyErrorComponent = lazy(async () => ({ default: ErrorComponent }));
+
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
   head: () => ({
     meta: [
@@ -99,7 +102,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
   shellComponent: RootShell,
   component: RootComponent,
   notFoundComponent: NotFoundComponent,
-  errorComponent: ErrorComponent,
+  errorComponent: LazyErrorComponent,
 });
 
 function RootShell({ children }: { children: React.ReactNode }) {
