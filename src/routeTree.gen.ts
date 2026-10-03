@@ -14,7 +14,6 @@ import { Route as BookRouteImport } from './routes/book'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as AdminLoginRouteImport } from './routes/admin.login'
-import { Route as ApiChatRouteImport } from './routes/api/chat'
 import { Route as GallerySlugRouteImport } from './routes/gallery.$slug'
 
 const IndexRoute = IndexRouteImport.update({
@@ -42,11 +41,6 @@ const AdminLoginRoute = AdminLoginRouteImport.update({
   path: '/admin/login',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ApiChatRoute = ApiChatRouteImport.update({
-  id: '/api/chat',
-  path: '/api/chat',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const GallerySlugRoute = GallerySlugRouteImport.update({
   id: '/gallery/$slug',
   path: '/gallery/$slug',
@@ -58,7 +52,6 @@ export interface FileRoutesByFullPath {
   '/book': typeof BookRoute
   '/contact': typeof ContactRoute
   '/admin/login': typeof AdminLoginRoute
-  '/api/chat': typeof ApiChatRoute
   '/gallery/$slug': typeof GallerySlugRoute
   '/admin/': typeof AdminIndexRoute
 }
@@ -67,7 +60,6 @@ export interface FileRoutesByTo {
   '/book': typeof BookRoute
   '/contact': typeof ContactRoute
   '/admin/login': typeof AdminLoginRoute
-  '/api/chat': typeof ApiChatRoute
   '/gallery/$slug': typeof GallerySlugRoute
   '/admin': typeof AdminIndexRoute
 }
@@ -77,36 +69,21 @@ export interface FileRoutesById {
   '/book': typeof BookRoute
   '/contact': typeof ContactRoute
   '/admin/login': typeof AdminLoginRoute
-  '/api/chat': typeof ApiChatRoute
   '/gallery/$slug': typeof GallerySlugRoute
   '/admin/': typeof AdminIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    | '/'
-    | '/book'
-    | '/contact'
-    | '/admin/login'
-    | '/api/chat'
-    | '/gallery/$slug'
-    | '/admin/'
+    '/' | '/book' | '/contact' | '/admin/login' | '/gallery/$slug' | '/admin/'
   fileRoutesByTo: FileRoutesByTo
-  to:
-    | '/'
-    | '/book'
-    | '/contact'
-    | '/admin/login'
-    | '/api/chat'
-    | '/gallery/$slug'
-    | '/admin'
+  to: '/' | '/book' | '/contact' | '/admin/login' | '/gallery/$slug' | '/admin'
   id:
     | '__root__'
     | '/'
     | '/book'
     | '/contact'
     | '/admin/login'
-    | '/api/chat'
     | '/gallery/$slug'
     | '/admin/'
   fileRoutesById: FileRoutesById
@@ -116,7 +93,6 @@ export interface RootRouteChildren {
   BookRoute: typeof BookRoute
   ContactRoute: typeof ContactRoute
   AdminLoginRoute: typeof AdminLoginRoute
-  ApiChatRoute: typeof ApiChatRoute
   GallerySlugRoute: typeof GallerySlugRoute
   AdminIndexRoute: typeof AdminIndexRoute
 }
@@ -158,13 +134,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminLoginRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/api/chat': {
-      id: '/api/chat'
-      path: '/api/chat'
-      fullPath: '/api/chat'
-      preLoaderRoute: typeof ApiChatRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/gallery/$slug': {
       id: '/gallery/$slug'
       path: '/gallery/$slug'
@@ -180,7 +149,6 @@ const rootRouteChildren: RootRouteChildren = {
   BookRoute: BookRoute,
   ContactRoute: ContactRoute,
   AdminLoginRoute: AdminLoginRoute,
-  ApiChatRoute: ApiChatRoute,
   GallerySlugRoute: GallerySlugRoute,
   AdminIndexRoute: AdminIndexRoute,
 }
