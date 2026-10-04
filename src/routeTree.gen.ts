@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as BookRouteImport } from './routes/book'
 import { Route as ContactRouteImport } from './routes/contact'
+import { Route as InquiryRouteImport } from './routes/inquiry'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as AdminLoginRouteImport } from './routes/admin.login'
 import { Route as GallerySlugRouteImport } from './routes/gallery.$slug'
@@ -29,6 +30,11 @@ const BookRoute = BookRouteImport.update({
 const ContactRoute = ContactRouteImport.update({
   id: '/contact',
   path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InquiryRoute = InquiryRouteImport.update({
+  id: '/inquiry',
+  path: '/inquiry',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminIndexRoute = AdminIndexRouteImport.update({
@@ -51,6 +57,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/book': typeof BookRoute
   '/contact': typeof ContactRoute
+  '/inquiry': typeof InquiryRoute
   '/admin/login': typeof AdminLoginRoute
   '/gallery/$slug': typeof GallerySlugRoute
   '/admin/': typeof AdminIndexRoute
@@ -59,6 +66,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/book': typeof BookRoute
   '/contact': typeof ContactRoute
+  '/inquiry': typeof InquiryRoute
   '/admin/login': typeof AdminLoginRoute
   '/gallery/$slug': typeof GallerySlugRoute
   '/admin': typeof AdminIndexRoute
@@ -68,6 +76,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/book': typeof BookRoute
   '/contact': typeof ContactRoute
+  '/inquiry': typeof InquiryRoute
   '/admin/login': typeof AdminLoginRoute
   '/gallery/$slug': typeof GallerySlugRoute
   '/admin/': typeof AdminIndexRoute
@@ -75,14 +84,28 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    '/' | '/book' | '/contact' | '/admin/login' | '/gallery/$slug' | '/admin/'
+    | '/'
+    | '/book'
+    | '/contact'
+    | '/inquiry'
+    | '/admin/login'
+    | '/gallery/$slug'
+    | '/admin/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/book' | '/contact' | '/admin/login' | '/gallery/$slug' | '/admin'
+  to:
+    | '/'
+    | '/book'
+    | '/contact'
+    | '/inquiry'
+    | '/admin/login'
+    | '/gallery/$slug'
+    | '/admin'
   id:
     | '__root__'
     | '/'
     | '/book'
     | '/contact'
+    | '/inquiry'
     | '/admin/login'
     | '/gallery/$slug'
     | '/admin/'
@@ -92,6 +115,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   BookRoute: typeof BookRoute
   ContactRoute: typeof ContactRoute
+  InquiryRoute: typeof InquiryRoute
   AdminLoginRoute: typeof AdminLoginRoute
   GallerySlugRoute: typeof GallerySlugRoute
   AdminIndexRoute: typeof AdminIndexRoute
@@ -118,6 +142,13 @@ declare module '@tanstack/react-router' {
       path: '/contact'
       fullPath: '/contact'
       preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/inquiry': {
+      id: '/inquiry'
+      path: '/inquiry'
+      fullPath: '/inquiry'
+      preLoaderRoute: typeof InquiryRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin/': {
@@ -148,6 +179,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   BookRoute: BookRoute,
   ContactRoute: ContactRoute,
+  InquiryRoute: InquiryRoute,
   AdminLoginRoute: AdminLoginRoute,
   GallerySlugRoute: GallerySlugRoute,
   AdminIndexRoute: AdminIndexRoute,

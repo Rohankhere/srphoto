@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { ArrowLeft, MessageCircle, Instagram, Mail } from "lucide-react";
 import { fetchSiteSettings } from "@/lib/content-queries";
+import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
@@ -73,31 +74,31 @@ function ContactPage() {
         </span>
       </nav>
 
-      <header className="px-6 md:px-8 pt-20 pb-12 max-w-3xl mx-auto text-center">
+      <header className="px-6 md:px-8 pt-10 pb-8 max-w-3xl mx-auto text-center">
         <span className="text-[10px] uppercase tracking-[0.25em] text-accent">Get in touch</span>
-        <h1 className="mt-4 text-4xl md:text-6xl font-light tracking-tight">
+        <h1 className="mt-3 text-4xl md:text-5xl font-light">
           {s.contact_title ?? "Let's talk"}
         </h1>
         {s.contact_subtitle && (
-          <p className="mt-6 text-base md:text-lg text-muted-foreground leading-relaxed whitespace-pre-line">
+          <p className="mt-4 text-sm md:text-base text-muted-foreground leading-relaxed whitespace-pre-line">
             {s.contact_subtitle}
           </p>
         )}
       </header>
 
-      <section className="px-6 md:px-8 pb-32 max-w-4xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
+      <section className="px-4 md:px-8 pb-12 max-w-4xl mx-auto">
+        <div className="grid grid-cols-1 min-[600px]:grid-cols-3 gap-3 rounded-lg border border-border p-3 md:p-5">
           {options.map(({ key, label, sub, Icon, href, disabled, external }) => {
             const className =
-              "group flex flex-col items-start gap-6 p-8 border border-border bg-muted/20 hover:bg-muted/40 hover:border-accent transition-all aspect-square focus:outline-none focus-visible:ring-2 focus-visible:ring-accent";
+              "group flex flex-row min-[600px]:flex-col items-start gap-4 p-5 rounded-md border border-border bg-card hover:bg-muted hover:border-accent transition-colors min-[600px]:min-h-44 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent";
             const inner = (
               <>
-                <Icon className="size-7 text-accent" strokeWidth={1.5} />
-                <div className="mt-auto">
-                  <p className="text-xl font-medium">{label}</p>
+                <Icon className="size-6 shrink-0 text-accent" strokeWidth={1.5} />
+                <div className="min-w-0 flex-1 min-[600px]:mt-auto">
+                  <p className="text-lg font-medium">{label}</p>
                   <p className="text-xs text-muted-foreground mt-1 break-all">{sub}</p>
                 </div>
-                <span className="text-[10px] uppercase tracking-widest text-muted-foreground group-hover:text-accent transition-colors">
+                <span className="shrink-0 text-[10px] uppercase text-muted-foreground group-hover:text-accent transition-colors">
                   {disabled ? "Unavailable" : "Open →"}
                 </span>
               </>
@@ -121,6 +122,11 @@ function ContactPage() {
               </a>
             );
           })}
+        </div>
+        <div className="mt-6 flex justify-center">
+          <Button asChild variant="outline" className="border-accent text-accent">
+            <Link to="/inquiry">Send an inquiry <span aria-hidden="true">↗</span></Link>
+          </Button>
         </div>
       </section>
     </div>
