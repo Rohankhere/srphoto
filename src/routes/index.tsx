@@ -686,7 +686,7 @@ function WorksSection({
                   )}
 
                   {/* Category badge */}
-                  <span className="absolute top-4 right-4 z-10 text-[10px] uppercase tracking-[0.22em] font-semibold text-accent bg-background/85 backdrop-blur-sm px-3 py-1.5 border border-accent/40">
+                  <span className="absolute top-4 right-4 z-10 text-[10px] uppercase tracking-[0.22em] font-semibold text-accent bg-background/85 backdrop-blur-sm px-3 py-1.5 border border-accent/40 transition-all duration-500 group-hover:bg-accent group-hover:text-background group-hover:-translate-y-0.5">
                     {categoryOf(g)}
                   </span>
 
@@ -711,7 +711,7 @@ function WorksSection({
                 </div>
                 {/* Static caption (always visible) */}
                 <div className="px-2 pt-4 pb-2 flex items-baseline justify-between gap-3">
-                  <h3 className="font-serif text-lg leading-tight truncate group-hover:text-accent transition-colors">
+                  <h3 className="title-sweep font-serif text-lg leading-tight truncate group-hover:text-accent transition-colors">
                     {g.title}
                   </h3>
                   <span className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground shrink-0">
