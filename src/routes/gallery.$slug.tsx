@@ -1,6 +1,7 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, ChevronLeft, ChevronRight, X } from "lucide-react";
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 import {
   fetchGalleries,
@@ -29,6 +30,24 @@ function GalleryPage() {
   const photos: GalleryPhoto[] = (photosQ.data ?? []).filter(
     (p) => gallery && p.gallery_id === gallery.id,
   );
+  const [lightbox, setLightbox] = useState<number | null>(null);
+
+  useEffect(() => {
+    if (lightbox === null) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setLightbox(null);
+      if (e.key === "ArrowRight") setLightbox((v) => (v === null ? v : (v + 1) % photos.length));
+      if (e.key === "ArrowLeft")
+        setLightbox((v) => (v === null ? v : (v - 1 + photos.length) % photos.length));
+    };
+    document.addEventListener("keydown", onKey);
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.body.style.overflow = "";
+    };
+  }, [lightbox === null, photos.length]);
+
 
   if (galleriesQ.isLoading) {
     return <div className="min-h-screen flex items-center justify-center text-muted-foreground text-sm">Loading…</div>;
