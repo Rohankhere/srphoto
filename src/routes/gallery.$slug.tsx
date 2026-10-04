@@ -104,7 +104,12 @@ function GalleryPage() {
                 data-reveal-delay={i % 4}
                 className="group animate-fade-up"
               >
-                <div className="frame-corners relative overflow-hidden aspect-[4/5] bg-muted ring-1 ring-border group-hover:ring-accent/60 transition-all duration-500">
+                <button
+                  type="button"
+                  onClick={() => setLightbox(i)}
+                  aria-label={`View photo ${i + 1}`}
+                  className="frame-corners relative block w-full overflow-hidden aspect-[4/5] bg-muted ring-1 ring-border group-hover:ring-accent/60 transition-all duration-500 cursor-zoom-in"
+                >
                   <img
                     src={p.url}
                     alt={p.caption || `${gallery.title} ${i + 1}`}
@@ -115,7 +120,7 @@ function GalleryPage() {
                   <span className="absolute top-3 left-3 z-10 font-mono text-[10px] tracking-widest text-accent bg-background/85 backdrop-blur-sm px-2 py-1 border border-accent/40 opacity-0 -translate-y-1 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500">
                     {String(i + 1).padStart(2, "0")}
                   </span>
-                </div>
+                </button>
                 <figcaption className="mt-3 flex gap-4">
                   <span className="text-[10px] uppercase tracking-widest text-accent/70 group-hover:text-accent transition-colors shrink-0 pt-1">
                     {String(i + 1).padStart(2, "0")}
