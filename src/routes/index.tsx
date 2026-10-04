@@ -645,7 +645,7 @@ function WorksSection({
                 <button
                   key={c}
                   onClick={() => setFilter(c)}
-                  className={`px-6 py-3 text-[11px] uppercase tracking-[0.22em] font-semibold transition-all ${
+                  className={`btn-press px-6 py-3 text-[11px] uppercase tracking-[0.22em] font-semibold transition-all duration-300 ${
                     active
                       ? "bg-accent text-background"
                       : "bg-muted/40 text-foreground/80 hover:bg-muted hover:text-accent"
@@ -659,7 +659,7 @@ function WorksSection({
         )}
 
         {/* Grid — clean image cards with category badge */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
+        <div key={filter} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
           {visible.map((g, i) => (
             <Link
               key={g.id}
@@ -669,8 +669,8 @@ function WorksSection({
               data-reveal-delay={i % 4}
               className="group relative block bg-card border border-border hover:border-accent transition-all duration-500 shadow-[0_4px_20px_-8px_rgba(0,0,0,0.4)] hover:shadow-[0_18px_50px_-12px_color-mix(in_oklab,var(--accent)_45%,transparent)] hover:-translate-y-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
             >
-              <div className="p-3">
-                <div className="relative overflow-hidden aspect-[3/4] bg-gradient-to-br from-muted via-muted/60 to-muted/30 ring-1 ring-border group-hover:ring-accent/60 transition-colors">
+                <div className="p-3">
+                <div className="frame-corners relative overflow-hidden aspect-[3/4] bg-gradient-to-br from-muted via-muted/60 to-muted/30 ring-1 ring-border group-hover:ring-accent/60 transition-all duration-500">
                   {/* Shimmer placeholder while image loads */}
                   <div className="absolute inset-0 bg-[linear-gradient(110deg,transparent_30%,color-mix(in_oklab,var(--accent)_10%,transparent)_50%,transparent_70%)] bg-[length:200%_100%] animate-[shimmer_1.8s_ease-in-out_infinite] pointer-events-none" />
                   {g.cover_url && (
@@ -681,7 +681,7 @@ function WorksSection({
                       fetchPriority={i < 3 ? "high" : "auto"}
                       decoding="async"
                       onLoad={(e) => e.currentTarget.classList.add("loaded")}
-                      className="relative w-full h-full object-cover opacity-0 [&.loaded]:opacity-100 transition-all duration-700 ease-[var(--ease-out-expo)] group-hover:scale-[1.06]"
+                      className="photo-wipe relative w-full h-full object-cover opacity-0 [&.loaded]:opacity-100 transition-[opacity,transform,filter] duration-700 ease-[var(--ease-out-expo)] saturate-[.92] group-hover:saturate-100 group-hover:scale-[1.06]"
                     />
                   )}
 
