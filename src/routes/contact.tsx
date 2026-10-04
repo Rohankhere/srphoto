@@ -54,7 +54,7 @@ function ContactPage() {
     },
     {
       key: "mail",
-      label: "Chat here",
+      label: "Email",
       sub: email || "Not configured",
       Icon: Mail,
       href: mailHref,
