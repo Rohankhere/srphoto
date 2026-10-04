@@ -1,3 +1,3 @@
 - [x] Move the inquiry form from the homepage to a dedicated page.
 - [x] Group contact methods into compact cards within one shared frame.
-- [ ] Verify homepage, inquiry navigation and contact layout.
+- [x] Verify homepage, inquiry navigation and contact layout.
