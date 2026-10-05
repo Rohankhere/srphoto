@@ -147,7 +147,7 @@ function GalleryPage() {
           role="dialog"
           aria-modal="true"
           aria-label={`${gallery.title} photo viewer`}
-          className="fixed inset-0 z-[100] flex items-center justify-center bg-background/95 p-4 text-foreground backdrop-blur-md animate-in fade-in duration-200 motion-reduce:animate-none sm:p-8"
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-background p-4 text-foreground animate-in fade-in duration-200 motion-reduce:animate-none sm:p-8"
           onClick={() => setLightbox(null)}
         >
           <Button
