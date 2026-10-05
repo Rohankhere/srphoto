@@ -1,4 +1,6 @@
 - [x] Move the inquiry form from the homepage to a dedicated page.
 - [x] Group contact methods into compact cards within one shared frame.
-- [x] Verify homepage, inquiry navigation and contact layout.- [x] Add entrance/hover animations to homepage album cards and gallery detail grid.
-- [ ] Add fullscreen photo lightbox (click to open, arrows/keyboard nav, escape to close) in gallery detail page.
+- [x] Verify homepage, inquiry navigation and contact layout.
+- [x] Add entrance/hover animations to homepage album cards and gallery detail grid.
+- [x] Add fullscreen photo lightbox (click to open, arrows/keyboard nav, escape to close) in gallery detail page.
+- [ ] Verify the fullscreen photo viewer in the running site.

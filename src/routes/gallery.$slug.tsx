@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { ArrowLeft, ChevronLeft, ChevronRight, X } from "lucide-react";
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
+import { Button } from "@/components/ui/button";
 import {
   fetchGalleries,
   fetchGalleryPhotos,
@@ -31,14 +32,20 @@ function GalleryPage() {
     (p) => gallery && p.gallery_id === gallery.id,
   );
   const [lightbox, setLightbox] = useState<number | null>(null);
+  const activePhoto = lightbox === null ? undefined : photos[lightbox];
 
   useEffect(() => {
     if (lightbox === null) return;
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") setLightbox(null);
-      if (e.key === "ArrowRight") setLightbox((v) => (v === null ? v : (v + 1) % photos.length));
-      if (e.key === "ArrowLeft")
+      if (e.key === "ArrowRight") {
+        e.preventDefault();
+        setLightbox((v) => (v === null ? v : (v + 1) % photos.length));
+      }
+      if (e.key === "ArrowLeft") {
+        e.preventDefault();
         setLightbox((v) => (v === null ? v : (v - 1 + photos.length) % photos.length));
+      }
     };
     document.addEventListener("keydown", onKey);
     document.body.style.overflow = "hidden";
@@ -134,6 +141,82 @@ function GalleryPage() {
           </div>
         )}
       </section>
+
+      {activePhoto && lightbox !== null && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-label={`${gallery.title} photo viewer`}
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-background/95 p-4 text-foreground backdrop-blur-md animate-in fade-in duration-200 motion-reduce:animate-none sm:p-8"
+          onClick={() => setLightbox(null)}
+        >
+          <Button
+            type="button"
+            variant="ghost"
+            size="icon"
+            aria-label="Close photo viewer"
+            title="Close (Esc)"
+            className="absolute right-4 top-4 z-10 size-11 rounded-full border border-border bg-background/70 hover:bg-accent hover:text-accent-foreground sm:right-8 sm:top-8"
+            onClick={() => setLightbox(null)}
+          >
+            <X className="size-5" />
+          </Button>
+
+          {photos.length > 1 && (
+            <Button
+              type="button"
+              variant="ghost"
+              size="icon"
+              aria-label="Previous photo"
+              title="Previous photo (←)"
+              className="absolute left-2 top-1/2 z-10 size-11 -translate-y-1/2 rounded-full border border-border bg-background/70 hover:bg-accent hover:text-accent-foreground sm:left-6"
+              onClick={(event) => {
+                event.stopPropagation();
+                setLightbox((index) => index === null ? 0 : (index - 1 + photos.length) % photos.length);
+              }}
+            >
+              <ChevronLeft className="size-5" />
+            </Button>
+          )}
+
+          <div
+            className="flex max-h-full w-full max-w-6xl flex-col items-center justify-center gap-4"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <img
+              key={activePhoto.id}
+              src={activePhoto.url}
+              alt={activePhoto.caption || `${gallery.title} ${lightbox + 1}`}
+              className="max-h-[78vh] max-w-full object-contain shadow-2xl animate-in zoom-in-95 fade-in duration-300 motion-reduce:animate-none"
+            />
+            <div className="flex w-full max-w-4xl items-start justify-between gap-6 text-sm">
+              <p className="min-w-0 whitespace-pre-line text-muted-foreground">
+                {activePhoto.caption}
+              </p>
+              <span className="shrink-0 font-mono text-xs tabular-nums text-accent">
+                {String(lightbox + 1).padStart(2, "0")} / {String(photos.length).padStart(2, "0")}
+              </span>
+            </div>
+          </div>
+
+          {photos.length > 1 && (
+            <Button
+              type="button"
+              variant="ghost"
+              size="icon"
+              aria-label="Next photo"
+              title="Next photo (→)"
+              className="absolute right-2 top-1/2 z-10 size-11 -translate-y-1/2 rounded-full border border-border bg-background/70 hover:bg-accent hover:text-accent-foreground sm:right-6"
+              onClick={(event) => {
+                event.stopPropagation();
+                setLightbox((index) => index === null ? 0 : (index + 1) % photos.length);
+              }}
+            >
+              <ChevronRight className="size-5" />
+            </Button>
+          )}
+        </div>
+      )}
     </div>
   );
 }
