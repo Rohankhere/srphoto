@@ -5,3 +5,4 @@
 - [x] Add fullscreen photo lightbox (click to open, arrows/keyboard nav, escape to close) in gallery detail page.
 - [x] Verify photo opening, arrow-key navigation, close behavior, and modal cleanup in the running preview.
 - [ ] Verify the viewer on the published site after its deployment is updated.
+- [ ] Review and polish the public site, verify the centered loading logo and logo presence, audit admin-editable content, and investigate bugs/security findings.
