@@ -14,6 +14,30 @@ export type Database = {
   }
   public: {
     Tables: {
+      ai_provider_settings: {
+        Row: {
+          api_key: string
+          base_url: string
+          model: string
+          singleton: boolean
+          updated_at: string
+        }
+        Insert: {
+          api_key?: string
+          base_url?: string
+          model?: string
+          singleton?: boolean
+          updated_at?: string
+        }
+        Update: {
+          api_key?: string
+          base_url?: string
+          model?: string
+          singleton?: boolean
+          updated_at?: string
+        }
+        Relationships: []
+      }
       bookings: {
         Row: {
           created_at: string

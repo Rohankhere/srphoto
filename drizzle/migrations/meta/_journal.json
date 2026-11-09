@@ -15,6 +15,13 @@
       "when": 1794241962340,
       "tag": "0001_protect_public_site_content_and_enquiries",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1794242396898,
+      "tag": "0002_add_private_ai_provider_settings",
+      "breakpoints": true
     }
   ]
 }
