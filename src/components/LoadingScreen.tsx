@@ -14,6 +14,7 @@ export function LoadingScreen({ logoUrl, brand = "S. R. Photo Studio" }: Props) 
   const [progress, setProgress] = useState(0);
   const [hidden, setHidden] = useState(false);
   const [done, setDone] = useState(false);
+  const [logoFailed, setLogoFailed] = useState(false);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -74,14 +75,15 @@ export function LoadingScreen({ logoUrl, brand = "S. R. Photo Studio" }: Props) 
       <div className="relative z-10 flex flex-col items-center gap-6 px-6 text-center">
         <div className="relative">
           <span className="absolute inset-0 -m-6 rounded-full bg-accent/20 blur-2xl animate-pulse" />
-          {logoUrl ? (
+          {logoUrl && !logoFailed ? (
             <img
               src={logoUrl}
               alt={brand}
-              className="relative size-24 md:size-32 object-contain animate-float"
+              onError={() => setLogoFailed(true)}
+              className="relative size-28 md:size-36 object-contain animate-float"
             />
           ) : (
-            <span className="relative inline-flex items-center justify-center size-24 md:size-32 border-2 border-accent text-accent rounded-full animate-float">
+            <span className="relative inline-flex items-center justify-center size-28 md:size-36 border-2 border-accent text-accent rounded-full animate-float">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2" className="size-10">
                 <path d="M4 7h3l2-2h6l2 2h3v12H4z" />
                 <circle cx="12" cy="13" r="3.5" />
